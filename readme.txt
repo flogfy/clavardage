@@ -27,9 +27,24 @@ Cependant si vous le lancez depuis plusieurs PC il devrait correctement fonction
 
 II) Ce que fait et ne fait pas encore le code
 
-	En rouge ce qui n'a pas encore été implémenté mais qui le sera bientôt.
 
 Quand on lance le programme, une fenetre s'affiche où l'on peut rentrer son login, son MDP et son pseudo puis valider.
+//////A FAIRE ///Les login et mdp entrées sont vérifiés avec la BDD du PC admin et la connexion est validée ou non : pour le moment elle est toujours validée/////
+La fenetre se ferme et on créer un utilisateur A ayant les informations entrées dans la fenetre précédente.
+On ouvre un socket UDP et un socket TCP puis on envoie un paquet UDP en Broadcast sur le réseau en indiquant notre login avec le socket UDP crée puis
+on attend que l'on nous envoie la liste des utilisateurs connectés ( c'est a dire la liste des "adressesIPconnectes" + la liste des loginconnectes")
+Ceux qui ont  recu le message de l'utilisateur A enregistre le login et l'adresse de l'user A et regarde chacun si ils sont l'avant dernier
+utilisateur connecté. Si c'est le cas alors l'utilisateur concerné ouvre un socket TCP, se connecte à celui de l'user A et lui envoie la liste des users connectés.
+L'utilisateur A reçoit la liste et la met à jour.
 
+Une fenetre s'ouvre alors affichant les utilisateurs disponibles sur le réseau.
+En cliquant sur un utilisateur on ouvre une conversation avec lui et on peut lui envoyer des messages et en recevoir, correctement dialoguer avec lui.
+
+A Faire : Gérer la fermeture d'une fenetre de conversation = Fermer les sockets associés à la conversation
+			Gérer les id des messages, les enregistrer dans une "BDD" local au PC
+			Verifier si tout fonctionne bien avec + que 2 utilisateurs sur des PC's différents
+
+			Changement de pseudo pas encore tout a fait au point
+			
 
 
