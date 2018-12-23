@@ -1,10 +1,12 @@
 
 I)Utilisation du code
 
-1)
+1) 
 
 Pour executer le programme sur une seule machine et donc pouvoir simuler des conversations comme si plusieurs utilisateurs
 utilisaient le programme, mais sur un seul PC avec des ports differents :
+
+Dans le constructeur de la classe "utilisateur", vérifier que l'adresse IP rentré est 127.0.0.1, faire la même chose dans la fonction connexion() de a classe "utilisateur".
 
 Lancer "serveurtest.java" puis "lancement.java"
 
@@ -17,6 +19,8 @@ lancement.java représente vraiment ce que l'utilisateur verra quand il lancera 
 2)
 
 Pour executer le programme en version réelle, c'est à dire comme il serait implémenté en entreprise:
+
+Changez les adresses utilisées dans le constructeur de la classe utilisateur et dans la fonction connexion par l'adresse IP public du PC et celle de Broadcast respectivement. Nous avons implémenté une fonction permettant de récupérer ses adresses quand on est sur un PC de l'INSA mais elle n'est pas encore au point pour d'autres cas.
 
 Décommentez la ligne : user.demarrerserveurudptcp(); dans utilisateur
 Décommentez la fonction dans "utilisateur" : demarrerserveurudptcp();
