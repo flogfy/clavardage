@@ -11,7 +11,7 @@ import java.util.Date;
 import javax.swing.*;
 
 
-public class fenetre implements ActionListener {
+public class fenetre implements WindowListener,ActionListener {
 	    JFrame converterFrame;
 	    JPanel converterPanel;
 	    JPanel converterPanel2;
@@ -57,14 +57,17 @@ public class fenetre implements ActionListener {
 			}
 	        //Create and set up the window.
 	        converterFrame = new JFrame(pseudodestinataire);
-	        converterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        converterFrame.setSize(new Dimension(400, 700));
-	        converterFrame.setBackground(Color.BLACK);
+	        converterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	        converterFrame.addWindowListener(this);
+
+	      //  converterFrame.setBackground(Color.BLACK);
 
 	        //Create and set up the panel.
 	        converterPanel = new JPanel();
-	        converterPanel.setBackground(Color.BLACK);
-	        
+	      //  converterPanel.setBackground(Color.BLACK);
+	        converterPanel2 = new JPanel();
+	      //  converterPanel2.setBackground(Color.BLACK);
 	        converterPanel.setBorder(BorderFactory.createEmptyBorder(
 	                30, //top
 	                30, //left
@@ -73,8 +76,7 @@ public class fenetre implements ActionListener {
 	                );
 
 	        converterPanel.setLayout(new BoxLayout(converterPanel,BoxLayout.PAGE_AXIS));
-	        converterPanel2 = new JPanel();
-	        converterPanel2.setBackground(Color.BLACK);
+	    
 	        converterPanel2.setLayout(new BoxLayout(converterPanel2,BoxLayout.LINE_AXIS));
 	        //Add the widgets.
 	        addWidgets();
@@ -115,7 +117,10 @@ public class fenetre implements ActionListener {
 
 	    public void actionPerformed(ActionEvent event) {
 	    	
+	    	
+	    	
 	       String messageaffiche= message.getText();
+	       message.setText(null);
 	       message messageenvoye=new message(TEXTE,id,messageaffiche,null);
 	       int retour=user.envoyermessage(messageenvoye,source,destination,socketsource);
 	       if (retour==1) {
@@ -140,10 +145,10 @@ public class fenetre implements ActionListener {
 	       
 	      
 	    }
-	    public void WindowClosed(WindowEvent event) {
+	    public void windowClosing(WindowEvent event) {
 	    	try {
 				socketsource.close();
-		        
+		        converterFrame.dispose();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -159,6 +164,42 @@ public class fenetre implements ActionListener {
 			       converterPanel.add(discussion);
 			       converterFrame.setVisible(true);
 		       
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	
 }

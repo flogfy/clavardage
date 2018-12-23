@@ -8,6 +8,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -39,15 +40,17 @@ public class utilisateur {
 	 /*	On recupere son adresse IP, on suppose ici que celle-ci est sur eth0 */
 	 
 	 try {
-		NetworkInterface interfaces = NetworkInterface.getByName("eth0");
+		NetworkInterface interfaces = NetworkInterface.getByName("wlan0");
 		Enumeration<InetAddress> iEnum=interfaces.getInetAddresses();
 			/* L'adresse IP est le 3eme element */
-	        InetAddress inetAddress = iEnum.nextElement(); 
+	      /*  InetAddress inetAddress = iEnum.nextElement(); 
 	        inetAddress=iEnum.nextElement();
 	        System.out.println(inetAddress.getHostAddress());
+	        */
+		InetAddress inetAddress=InetAddress.getByName("127.0.0.1");
 	        this.adresseip=inetAddress;
 		
-	} catch (SocketException e) {
+	} catch (SocketException | UnknownHostException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
@@ -109,7 +112,7 @@ public class utilisateur {
 		//On supposera que l'administrateur du réseau entrera dans la BDD l'adresse du réseau, l'adresse de Broadcast et le masque du réseau, une fois a l'installation du logiciel
 		//car on ne peut pas aisément recuperer ces adresses en java et c'est très rapide de les rentrer une fois en dur
 			DatagramSocket dgramconnexion=new DatagramSocket();
-			InetAddress adressebroadcast=InetAddress.getByName("10.1.255.255");
+			InetAddress adressebroadcast=InetAddress.getByName("127.0.0.1");
 			DatagramPacket paquetenvoye=new DatagramPacket(login2.getBytes(),login2.length(),adressebroadcast,1500);
 			dgramconnexion.send(paquetenvoye);
 			dgramconnexion.close();

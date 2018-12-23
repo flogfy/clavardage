@@ -25,26 +25,35 @@ public class MyThread extends Thread {
 		
 		// On recupere tout les messages envoyes a ce socket tant qu'il est connecte
 		ObjectInputStream entree;
-		
-		while(socket.isConnected()) {
+			while(!socket.isClosed()) {
+			System.out.println("Convouverte");
 			try {
-				//On recupere directement les messages sous forme d'objets messages
-				entree = new ObjectInputStream(socket.getInputStream());
-				Object input2=entree.readObject();
-				message input=(message)input2;
-				if(input.getType()==0)
+				if(!socket.isClosed())
 				{
-					//Si le type est message texte (normal)
-					fenetreconv.affichermessage(input);
+					//On recupere directement les messages sous forme d'objets messages
+					entree = new ObjectInputStream(socket.getInputStream());
+					Object input2=entree.readObject();
+					message input=(message)input2;
+					if(input.getType()==0)
+					{
+						//Si le type est message texte (normal)
+						fenetreconv.affichermessage(input);
+					}
 				}
 					
-			} catch (IOException e) {
+				}
+			 catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				System.out.println("Conversation fermée");
+				try {
+					socket.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("socketdejafermee");
+					e1.printStackTrace();
+				}
+				//e.printStackTrace();
+			 }				
 		}
 		
 		
