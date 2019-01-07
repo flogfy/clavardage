@@ -40,7 +40,7 @@ public class utilisateur {
 	 /*	On recupere son adresse IP, on suppose ici que celle-ci est sur eth0 */
 	 
 	 try {
-		NetworkInterface interfaces = NetworkInterface.getByName("wlan0");
+		NetworkInterface interfaces = NetworkInterface.getByName("eth0");
 		Enumeration<InetAddress> iEnum=interfaces.getInetAddresses();
 			/* L'adresse IP est le 3eme element */
 	      /*  InetAddress inetAddress = iEnum.nextElement(); 
@@ -73,8 +73,8 @@ public class utilisateur {
 			listepseudoconnectes.add(index,pseudo);
 			listepseudoconnectes.remove(index+1);
 			message pseudochanges = new message(PSEUDO,id,pseudochange,null);
-			Socket socketsource=new Socket();
-			
+			////////A CHANGER PAR SOCKET UDP /////////////
+			Socket socketsource=new Socket();		
 			for(i=0;i<listeadressesconnectes.size()-1;i++) {
 				try {
 					socketsource.connect(new InetSocketAddress(listeadressesconnectes.get(i),8200));

@@ -61,12 +61,12 @@ public class fenetreconnexion implements ActionListener {
 	        //Create and set up the window.
 	        converterFrame = new JFrame("Connexion");
 	        converterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        converterFrame.setSize(new Dimension(400, 700));
-	        converterFrame.setBackground(Color.YELLOW);
+	        converterFrame.setSize(new Dimension(400, 230));
+	        converterFrame.setBackground(Color.WHITE);
 
 	        //Create and set up the panel.
 	        converterPanel = new JPanel();
-	        converterPanel.setBackground(Color.BLACK);
+	        converterPanel.setBackground(Color.WHITE);
 	        
 	        converterPanel.setBorder(BorderFactory.createEmptyBorder(
 	                30, //top

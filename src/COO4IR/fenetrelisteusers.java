@@ -58,7 +58,8 @@ public class fenetrelisteusers implements ActionListener{
         //Create and set up the window.
         converterFrame = new JFrame("Utilisateurs disponibles");
         converterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        converterFrame.setSize(new Dimension(400, 700));
+        converterFrame.setSize(new Dimension(400, pseudoconnectes.size()*50+20));
+        
         converterFrame.setBackground(Color.WHITE);
 
         //Create and set up the panel.
@@ -133,6 +134,18 @@ public class fenetrelisteusers implements ActionListener{
     		}
     	}
     }
+
+	public void actualiser() {
+		converterFrame.setSize(new Dimension(400, pseudoconnectes.size()*50+20));
+		converterFrame.remove(converterPanel);
+		converterPanel.removeAll();
+		addWidgets();
+		converterFrame.add(converterPanel);
+		 converterFrame.getContentPane().add(converterPanel, BorderLayout.NORTH);
+	        //Display the window.
+	       // converterFrame.pack();
+	        converterFrame.setVisible(true);
+	}
     
     
 }

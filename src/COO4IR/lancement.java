@@ -5,7 +5,7 @@ import java.io.IOException;
 ///L'utilisateur lance ceci pour demarrer
 public class lancement {
 		
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		
 		fenetreconnexion fenconnexion= new fenetreconnexion();//On ouvre une fenetre où l'utilisateur entre login / MDP / pseudo
 		while(!fenconnexion.isEtablissementconnexion()) {//On attend qu'il est fini, on verifie frequemment si c'est bon
@@ -56,6 +56,10 @@ Si on decommente on peut simuler des conversations sur un meme pc.
 		//On affiche une fenetre avec la liste des utilisateurs connectés où l'on peut choisir à qui parler
 		
 		fenetrelisteusers fenetreliste=new fenetrelisteusers(user,user.getListepseudoconnectes(),user.getListeadressesconnectes());
+		while(1==1) {
+			Thread.sleep(3000);
+			fenetreliste.actualiser();
+		}
 		
 		
 			
