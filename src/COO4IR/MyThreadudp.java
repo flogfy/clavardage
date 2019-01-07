@@ -25,24 +25,37 @@ public class MyThreadudp extends Thread {
 				DatagramSocket socketudp=new DatagramSocket(1500);
 				byte[] buffer=new byte[512];
 				DatagramPacket paquetudp=new DatagramPacket(buffer,buffer.length);
+				int i=0;//Necessaire  pour la simulation sur un seul PC car sinon on rentre quoi qu'il arrive dans le if car
+				//il n'y a que l'adesse 127.0.0.1 dans la liste des adresses
 				while(true) {
-					
+				
 					try {
+						i=i+1;
 						socketudp.receive(paquetudp);
-						byte[] loginbyte=paquetudp.getData();
+						if(user.getListeadressesconnectes().contains(paquetudp.getAddress())&&(i!=1)) {//i!=1 a enlever pour une simulation sur plusieurs pc
+							byte[] pseudobyte=paquetudp.getData();
+							int longueur=paquetudp.getLength();
+							String newpseudo=new String(pseudobyte,0,longueur,Charset.defaultCharset());
+							int index=user.getListeadressesconnectes().indexOf(paquetudp.getAddress());
+							user.getListepseudoconnectes().add(index,newpseudo);
+							user.getListepseudoconnectes().remove(index+1);
+						}
+						else
+						{
+						byte[] pseudobyte=paquetudp.getData();
 						int longueur=paquetudp.getLength();
-						String login=new String(loginbyte,0,longueur,Charset.defaultCharset());
-						user.getListeloginconnectes().add(login);
+						String pseudo=new String(pseudobyte,0,longueur,Charset.defaultCharset());
+						user.getListepseudoconnectes().add(pseudo);
 						user.getListeadressesconnectes().add(paquetudp.getAddress());
-						System.out.println(user.getListeloginconnectes());
+						System.out.println(user.getListepseudoconnectes());
 						System.out.println(user.getListeadressesconnectes());
 						
 						
-						if(user.getListeloginconnectes().size()>=2)
+						if(user.getListepseudoconnectes().size()>=2)
 						{
 						
 							
-							if(user.getListeloginconnectes().get(user.getListeloginconnectes().size()-2).equals(user.getLogin())) {//Si nous sommes l'avant dernière personne as'être connectée
+							if(user.getListepseudoconnectes().get(user.getListepseudoconnectes().size()-2).equals(user.getPseudo())) {//Si nous sommes l'avant dernière personne as'être connectée
 						//on envoie la liste des login et adresses connectes on ouvre donc un nouveau socket TCP ce coup-ci car 
 								//on veut être sûr que le message arrive et on s'adresse qu'a une personne
 							Socket socketsource=new Socket();
@@ -51,17 +64,19 @@ public class MyThreadudp extends Thread {
 							socketsource.connect(new InetSocketAddress(adressedestination,1501));
 							ObjectOutputStream sortie = new ObjectOutputStream(socketsource.getOutputStream());
 							sortie.flush();
-							sortie.writeObject(user.getListeloginconnectes());
+							sortie.writeObject(user.getListepseudoconnectes());
 							sortie.flush();
 							sortie.writeObject(user.getListeadressesconnectes());
 							Thread.sleep(500);
 							socketsource.close();
 							}
 						}
+						}
 						} catch (IOException | InterruptedException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						
 			}
 		}catch (IOException e1) {
 			// TODO Auto-generated catch block

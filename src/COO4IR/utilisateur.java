@@ -29,7 +29,7 @@ public class utilisateur {
 	int DECONNEXION=5;
 	int OUVERTURE=6;
 	int id=0;
-	
+
 	
 	
  public utilisateur(String login, String pseudo) {
@@ -49,6 +49,7 @@ public class utilisateur {
 	        */
 		InetAddress inetAddress=InetAddress.getByName("127.0.0.1");
 	        this.adresseip=inetAddress;
+	        this.listeadressesconnectes.add(inetAddress);
 		
 	} catch (SocketException | UnknownHostException e) {
 		// TODO Auto-generated catch block
@@ -65,7 +66,7 @@ public class utilisateur {
   */
  
  public void setPseudo(String pseudochange) {
-		id=id+1;
+		
 		int i=0;
 		int index=listepseudoconnectes.indexOf(pseudo);
 			this.pseudo = pseudochange;
@@ -83,9 +84,15 @@ public class utilisateur {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-			}
 			
+			}
+		/*
+		 * DatagramSocket dgrampseudo=new DatagramSocket();
+			InetAddress adressebroadcast=InetAddress.getByName("127.0.0.1");
+			DatagramPacket paquetenvoye=new DatagramPacket(pseudochange.getBytes(),pseudochange.length(),adressebroadcast,1500);
+			dgramconnexion.send(paquetenvoye);
+			dgramconnexion.close();	
+		 */
 		
 }
 
@@ -108,12 +115,12 @@ public class utilisateur {
 	//puis on attend la réponse en TCP de l'avant dernier qui s'est connecté qui nous envoie la liste des connectés.
 
 	@SuppressWarnings("unchecked")
-	public void connexion(String login2) throws IOException {
+	public void connexion(String pseudo) throws IOException {
 		//On supposera que l'administrateur du réseau entrera dans la BDD l'adresse du réseau, l'adresse de Broadcast et le masque du réseau, une fois a l'installation du logiciel
 		//car on ne peut pas aisément recuperer ces adresses en java et c'est très rapide de les rentrer une fois en dur
 			DatagramSocket dgramconnexion=new DatagramSocket();
 			InetAddress adressebroadcast=InetAddress.getByName("127.0.0.1");
-			DatagramPacket paquetenvoye=new DatagramPacket(login2.getBytes(),login2.length(),adressebroadcast,1500);
+			DatagramPacket paquetenvoye=new DatagramPacket(pseudo.getBytes(),pseudo.length(),adressebroadcast,1500);
 			dgramconnexion.send(paquetenvoye);
 			dgramconnexion.close();
 			
@@ -124,8 +131,8 @@ public class utilisateur {
 				Socket lien=socket.accept();
 				ObjectInputStream entree = new ObjectInputStream(lien.getInputStream());
 				Object input=entree.readObject();
-				ArrayList<String> logins=(ArrayList<String>) input;
-				this.listeloginconnectes=logins;
+				ArrayList<String> pseudos=(ArrayList<String>) input;
+				this.listepseudoconnectes=pseudos;
 				input=entree.readObject();
 				ArrayList<InetAddress> adressesip=(ArrayList<InetAddress>) input;
 				this.listeadressesconnectes=adressesip;

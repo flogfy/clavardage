@@ -35,9 +35,10 @@ Si on decommente on peut simuler des conversations sur un meme pc.
 		
 		//On signale notre connexion aux autres et on recupere la liste des autres utilisateurs connectes
 		
-		user.connexion(user.getLogin());
-		int i=0;
-		while((user.getListeadressesconnectes().isEmpty())&&(i!=100))
+		user.connexion(user.getPseudo());
+		int i=0;	
+	  while((user.getListeadressesconnectes().isEmpty())&&(i!=100))
+	 
 		{
 			System.out.println(i);
 			try {
@@ -49,12 +50,12 @@ Si on decommente on peut simuler des conversations sur un meme pc.
 			}
 		}
 
-		System.out.println(user.getListeloginconnectes());
+		System.out.println(user.getListepseudoconnectes());
 		System.out.println(user.getListeadressesconnectes());
 		
 		//On affiche une fenetre avec la liste des utilisateurs connectés où l'on peut choisir à qui parler
 		
-		fenetrelisteusers fenetreliste=new fenetrelisteusers(user,user.getListeloginconnectes(),user.getListeadressesconnectes());
+		fenetrelisteusers fenetreliste=new fenetrelisteusers(user,user.getListepseudoconnectes(),user.getListeadressesconnectes());
 		
 		
 			

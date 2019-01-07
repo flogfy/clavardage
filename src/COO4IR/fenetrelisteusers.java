@@ -27,14 +27,14 @@ public class fenetrelisteusers implements ActionListener{
     JPanel converterPanel;
     JLabel login;
     ArrayList<JButton> listeboutons;
-    ArrayList<String> loginconnectes;
+    ArrayList<String> pseudoconnectes;
     ArrayList<InetAddress>adressesconnectes;
     private utilisateur user;
     
    
-	public fenetrelisteusers(utilisateur user,ArrayList<String> loginconnectes,ArrayList<InetAddress>adressesconnectes)
+	public fenetrelisteusers(utilisateur user,ArrayList<String> pseudoconnectes,ArrayList<InetAddress>adressesconnectes)
 	{
-		this.loginconnectes=loginconnectes;
+		this.pseudoconnectes=pseudoconnectes;
 		this.adressesconnectes=adressesconnectes;
     	this.user=user;
     	
@@ -63,7 +63,7 @@ public class fenetrelisteusers implements ActionListener{
 
         //Create and set up the panel.
         converterPanel = new JPanel();
-        converterPanel.setBackground(Color.BLACK);
+        converterPanel.setBackground(Color.WHITE);
         
         converterPanel.setBorder(BorderFactory.createEmptyBorder(
                 30, //top
@@ -92,50 +92,44 @@ public class fenetrelisteusers implements ActionListener{
      */
     private void addWidgets() {
         //Create widgets.
-        System.out.println(loginconnectes.size());
-        for(int i=0;i<loginconnectes.size();i++) {
-        	if(!loginconnectes.get(i).equals(user.getLogin())) {
+        System.out.println(pseudoconnectes.size());
+        for(int i=0;i<pseudoconnectes.size();i++) {
+    
+
+        	if(!(pseudoconnectes.get(i).equals(user.getPseudo()))) {
         		
         	
-        	
-        	JButton bouton = new JButton(loginconnectes.get(i));
+        	JButton bouton = new JButton(pseudoconnectes.get(i));
         //Listen to events from the Convert button.
         	bouton.addActionListener(this);
         //Add the widgets to the container.
-        
+       
         	converterPanel.add(bouton);
         }
        }	
     }
- /*   public void actionPerformpublic boolean isEtablissementconnexion() {
-    	return etablissementconnexion;public boolean isEtablissementconnexion() {
-    	return etablissementconnexion;
-    }
-    }ed(KeyListener event) {
-    	event.keyPressed(YELLOW
-    	
-    }*/
+
 
     public void actionPerformed(ActionEvent event) 
     {
     	//Ouvrir une conversation c'est a dire ouvrir une fenetre de discussion avec les infos necessaire en parametre
     	JButton bout=(JButton) event.getSource();
     	
-    	for(int i=0;i<loginconnectes.size();i++) {
-    		if(bout.getText()==loginconnectes.get(i)) {
+    	for(int i=0;i<pseudoconnectes.size();i++) {
+    		if(bout.getText()==pseudoconnectes.get(i)) {
     			Socket socketsource=new Socket();
     			InetAddress adressedestination;
-    			
 				try {
 					adressedestination = adressesconnectes.get(i);
 					socketsource.connect(new InetSocketAddress(adressedestination,8200));
+					Thread t = new MyThread(socketsource,user,pseudoconnectes.get(i));
+	    			t.start();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
     			
-    			Thread t = new MyThread(socketsource,user);
-    			t.start();
+    			
     		}
     	}
     }

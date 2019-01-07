@@ -19,7 +19,9 @@ public class fenetre implements WindowListener,ActionListener {
 	    JTextField message;
 	    JButton envoyer;
 	    private InetAddress source;
-	    private InetAddress destination;
+	    
+
+		private InetAddress destination;
 	    private Socket socketsource ;
 	    private String pseudodestinataire;
 	    private utilisateur user;
@@ -29,7 +31,7 @@ public class fenetre implements WindowListener,ActionListener {
 		int PSEUDO=3;
 		int CONNEXION=4;
 		int DECONNEXION=5;
-		int id=0;
+		static int id=0;
 	    
 	    public fenetre(utilisateur user,InetAddress source,InetAddress destination,Socket socketsource,String pseudodestinataire) {
 	    	this.user=user;
@@ -100,7 +102,7 @@ public class fenetre implements WindowListener,ActionListener {
 	        //Create widgets.
 	        
 	        message = new JTextField(2);
-	       
+	        message.setText("");
 	        envoyer = new JButton("Envoyer");
 	        
 	       
@@ -122,12 +124,13 @@ public class fenetre implements WindowListener,ActionListener {
 	       String messageaffiche= message.getText();
 	       message.setText(null);
 	       message messageenvoye=new message(TEXTE,id,messageaffiche,null);
+	       id++; 
 	       int retour=user.envoyermessage(messageenvoye,source,destination,socketsource);
 	       if (retour==1) {
 	    	   Date date=new Date();
 		       SimpleDateFormat formater = new SimpleDateFormat("h:mm");
 		       String datee=(formater.format(date));
-		       discussion=new JLabel("<html><font Color=white>"+ datee +"</font><font Color=blue>"+ messageaffiche +"</font></html>",SwingConstants.CENTER);
+		       discussion=new JLabel("<html><font Color=black>"+ datee +"</font><font Color=blue>"+ messageaffiche +"</font></html>",SwingConstants.CENTER);
 		       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		       converterPanel.add(discussion);
 		       converterFrame.setVisible(true);
@@ -136,7 +139,7 @@ public class fenetre implements WindowListener,ActionListener {
 	    	   Date date=new Date();
 		       SimpleDateFormat formater = new SimpleDateFormat("h:mm");
 		       String datee=(formater.format(date));
-	    	   discussion=new JLabel("<html><font Color=white>"+ datee +"</font><font Color=red>"+ " erreur de l'envoi du message "+"</font></html>",SwingConstants.CENTER);
+	    	   discussion=new JLabel("<html><font Color=orange>"+ datee +"</font><font Color=red>"+ " erreur de l'envoi du message "+"</font></html>",SwingConstants.CENTER);
 		       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		       converterPanel.add(discussion);
 		       converterFrame.setVisible(true);
@@ -159,7 +162,7 @@ public class fenetre implements WindowListener,ActionListener {
 		public void affichermessage(message message) {
 			   String messageaffiche= message.getContenu();
 		    	   String date=message.getDate();
-			       discussion=new JLabel("<html>"+ date +"<font Color=red>"+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
+			       discussion=new JLabel("<html><font Color=black>"+ date +"</fond><font Color=red>"+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
 			       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 			       converterPanel.add(discussion);
 			       converterFrame.setVisible(true);
@@ -201,6 +204,8 @@ public class fenetre implements WindowListener,ActionListener {
 			// TODO Auto-generated method stub
 			
 		}
-	
+		public void setPseudodestinataire(String pseudodestinataire) {
+			this.pseudodestinataire = pseudodestinataire;
+		}
 }
 

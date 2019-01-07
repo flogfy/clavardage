@@ -9,9 +9,8 @@ public class serveurtest{
 	public static void main(String[]  args) throws InterruptedException, ClassNotFoundException {
 	
 			utilisateur user2=new utilisateur("pepita","lulu");
-			user2.getListeadressesconnectes().add(user2.getAdresseip());
 			System.out.println(user2.getListeadressesconnectes());
-			user2.getListeloginconnectes().add(user2.getLogin());
+		//	user2.getListepseudoconnectes().add(user2.getPseudo());
 			Thread udp=new MyThreadudp(user2);
 			udp.start();
 			ServerSocket socket = null;
@@ -25,7 +24,7 @@ public class serveurtest{
 			try {
 				
 				Socket lien=socket.accept();
-				Thread t = new MyThread(lien,user2);
+				Thread t = new MyThread(lien,user2,"pseudo");
 				t.start();
 				
 			} catch (IOException e) {
