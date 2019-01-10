@@ -60,7 +60,7 @@ public class fenetrelisteusers implements ActionListener{
         //Create and set up the window.
         converterFrame = new JFrame("Utilisateurs disponibles");
         converterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        converterFrame.setSize(new Dimension(400, pseudoconnectes.size()*50+20));
+        converterFrame.setSize(new Dimension(400, pseudoconnectes.size()*50+50));
         
         converterFrame.setBackground(Color.WHITE);
 
@@ -95,7 +95,6 @@ public class fenetrelisteusers implements ActionListener{
      */
     private void addWidgets() {
         //Create widgets.
-        System.out.println(pseudoconnectes.size());
         for(int i=0;i<pseudoconnectes.size();i++) {
     
 
@@ -157,7 +156,7 @@ public class fenetrelisteusers implements ActionListener{
 
     			}
     		       
-    		        
+    		       
     	}
     		
 

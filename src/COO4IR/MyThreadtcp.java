@@ -29,7 +29,7 @@ public class MyThreadtcp extends Thread {
 	}
 	while(true) {
 	try {
-		
+	
 		Socket lien=socket.accept();
 		Thread t = new MyThread(lien,user,"pseudotest");//On cree un Thread, c'est a dire ici une conversation
 		t.start();

@@ -28,11 +28,11 @@ public class MyThreadudp extends Thread {
 				int i=0;//Necessaire  pour la simulation sur un seul PC car sinon on rentre quoi qu'il arrive dans le if car
 				//il n'y a que l'adesse 127.0.0.1 dans la liste des adresses
 				while(true) {
-				
+			
 					try {
 						i=i+1;
 						socketudp.receive(paquetudp);
-						if(user.getListeadressesconnectes().contains(paquetudp.getAddress())&&(i!=1)) {//i!=1 a enlever pour une simulation sur plusieurs pc
+						if(user.getListeadressesconnectes().contains(paquetudp.getAddress())&&(i!=1)&&(user.getAdresseip()!=paquetudp.getAddress())) {//i!=1 a enlever pour une simulation sur plusieurs pc
 							byte[] pseudobyte=paquetudp.getData();
 							int longueur=paquetudp.getLength();
 							String newpseudo=new String(pseudobyte,0,longueur,Charset.defaultCharset());
@@ -42,36 +42,43 @@ public class MyThreadudp extends Thread {
 						}
 						else
 						{
-						byte[] pseudobyte=paquetudp.getData();
-						int longueur=paquetudp.getLength();
-						String pseudo=new String(pseudobyte,0,longueur,Charset.defaultCharset());
-						user.getListepseudoconnectes().add(pseudo);
-						user.getListeadressesconnectes().add(paquetudp.getAddress());
-						System.out.println(user.getListepseudoconnectes());
-						System.out.println(user.getListeadressesconnectes());
-						
-						
-						if(user.getListepseudoconnectes().size()>=2)
-						{
-						
-							
-							if(user.getListepseudoconnectes().get(user.getListepseudoconnectes().size()-2).equals(user.getPseudo())) {//Si nous sommes l'avant dernière personne as'être connectée
-						//on envoie la liste des login et adresses connectes on ouvre donc un nouveau socket TCP ce coup-ci car 
-								//on veut être sûr que le message arrive et on s'adresse qu'a une personne
-							Socket socketsource=new Socket();
-							InetAddress adressedestination=paquetudp.getAddress();
-							Thread.sleep(500);
-							socketsource.connect(new InetSocketAddress(adressedestination,1501));
-							ObjectOutputStream sortie = new ObjectOutputStream(socketsource.getOutputStream());
-							sortie.flush();
-							sortie.writeObject(user.getListepseudoconnectes());
-							sortie.flush();
-							sortie.writeObject(user.getListeadressesconnectes());
-							Thread.sleep(500);
-							socketsource.close();
+							if((!user.getAdresseip().equals(paquetudp.getAddress()))) {
+								//POur ne pas traiter les paquets qu'on a soi-même envoyé en broadcast
+								
+								
+								byte[] pseudobyte=paquetudp.getData();
+								int longueur=paquetudp.getLength();
+								String pseudo=new String(pseudobyte,0,longueur,Charset.defaultCharset());
+								user.getListepseudoconnectes().add(pseudo);
+								user.getListeadressesconnectes().add(paquetudp.getAddress());
+								System.out.println(user.getListepseudoconnectes());
+								System.out.println(user.getListeadressesconnectes());
+								
+								
+								if(user.getListepseudoconnectes().size()>=2)
+								{
+								
+									
+									if(user.getListepseudoconnectes().get(user.getListepseudoconnectes().size()-2).equals(user.getPseudo())) {
+										//Si nous sommes l'avant dernière personne as'être connectée
+								//on envoie la liste des login et adresses connectes on ouvre donc un nouveau socket TCP ce coup-ci car 
+										//on veut être sûr que le message arrive et on s'adresse qu'a une personne
+									Socket socketsource=new Socket();
+									InetAddress adressedestination=paquetudp.getAddress();
+									Thread.sleep(500);
+									socketsource.connect(new InetSocketAddress(adressedestination,1501));
+									ObjectOutputStream sortie = new ObjectOutputStream(socketsource.getOutputStream());
+									sortie.flush();
+									sortie.writeObject(user.getListepseudoconnectes());
+									sortie.flush();
+									sortie.writeObject(user.getListeadressesconnectes());
+									Thread.sleep(500);
+									socketsource.close();
+									}
+								}
+								}
 							}
-						}
-						}
+						
 						} catch (IOException | InterruptedException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

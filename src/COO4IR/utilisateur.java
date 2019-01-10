@@ -164,10 +164,10 @@ public class utilisateur {
 		Thread udp=new MyThreadudp(this);
 		udp.start();
 
-		System.out.println("terminerdemarrerudp");
+		
 		Thread tcp=new MyThreadtcp(this);
 		tcp.start();
-		System.out.println("terminerdemarrer");
+		
 	}
 
 

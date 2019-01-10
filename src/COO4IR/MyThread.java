@@ -29,7 +29,6 @@ public class MyThread extends Thread {
 		// On recupere tout les messages envoyes a ce socket tant qu'il est connecte
 		ObjectInputStream entree;
 			while(!socket.isClosed()) {
-			System.out.println("Convouverte");
 			try {
 				if(!socket.isClosed())
 				{
@@ -40,7 +39,6 @@ public class MyThread extends Thread {
 					message input=(message)input2;
 					if(input.getType()==3) {
 						System.out.println("premieremiseajourpseudo");
-						System.out.println(input.getContenu());
 						fenetreconv.setPseudodestinataire(input.getContenu());
 						fenetreconv.converterFrame.setTitle(input.getContenu());
 						this.pseudodest=input.getContenu();
@@ -64,12 +62,12 @@ public class MyThread extends Thread {
 				}
 			 catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Conversation fermee");
+	
 				try {
 					socket.close();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					System.out.println("socketdejafermee");
+
 					e1.printStackTrace();
 				}
 				//e.printStackTrace();

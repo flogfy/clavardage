@@ -139,12 +139,11 @@ public class fenetre implements WindowListener,ActionListener {
 	    	   Date date=new Date();
 		       SimpleDateFormat formater = new SimpleDateFormat("h:mm");
 		       String datee=(formater.format(date));
-	    	   discussion=new JLabel("<html><font Color=orange>"+ datee +"</font><font Color=red>"+ " erreur de l'envoi du message "+"</font></html>",SwingConstants.CENTER);
+	    	   discussion=new JLabel("<html><font Color=orange>"+ datee +"</font><font Color=red>"+ " Votre ami n'est plus là ... "+"</font></html>",SwingConstants.CENTER);
 		       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		       converterPanel.add(discussion);
 		       converterFrame.setVisible(true);
 	       }
-	       
 	       
 	      
 	    }

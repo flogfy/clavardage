@@ -18,8 +18,7 @@ public class lancement {
 		}
 		//On cree un utilisateur en fonction de ce qui a été rentré dans la fenetre de connexion
 		utilisateur user=new utilisateur(fenconnexion.getTlogin(),fenconnexion.getTpseudo());
-		
-		System.out.println("demarrertcpudp");
+	
 		
 /*		
 A decommenter pour lancer le logiciel en mode réel, c'est a dire avec plusieurs ordinateurs sous la main, situation reelle
@@ -30,9 +29,6 @@ Si on decommente on peut simuler des conversations sur un meme pc.
 
 		
 		
-		System.out.println("finirtcpudp");
-	
-		
 		//On signale notre connexion aux autres et on recupere la liste des autres utilisateurs connectes
 		
 		user.connexion(user.getPseudo());
@@ -40,7 +36,7 @@ Si on decommente on peut simuler des conversations sur un meme pc.
 	  while((user.getListeadressesconnectes().isEmpty())&&(i!=100))
 	 
 		{
-			System.out.println(i);
+
 			try {
 				Thread.sleep(250);
 				i=i+1;
