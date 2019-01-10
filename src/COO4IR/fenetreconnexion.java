@@ -116,7 +116,6 @@ public class fenetreconnexion implements ActionListener {
 	        converterPanel.add(pseudo);
 	        converterPanel.add(tpseudo);
 	        converterPanel.add(seconnecter);
-
 	    }
 	 /*   public void actionPerformed(KeyListener event) {
 	    	event.keyPressed(

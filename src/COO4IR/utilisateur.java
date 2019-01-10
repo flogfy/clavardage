@@ -40,18 +40,18 @@ public class utilisateur {
 	 /*	On recupere son adresse IP, on suppose ici que celle-ci est sur eth0 */
 	 
 	 try {
-		NetworkInterface interfaces = NetworkInterface.getByName("eth0");
+		 /*NetworkInterface interfaces = NetworkInterface.getByName("eth0");
 		Enumeration<InetAddress> iEnum=interfaces.getInetAddresses();
-			/* L'adresse IP est le 3eme element */
+			 L'adresse IP est le 3eme element */
 	      /*  InetAddress inetAddress = iEnum.nextElement(); 
 	        inetAddress=iEnum.nextElement();
 	        System.out.println(inetAddress.getHostAddress());
 	        */
-		InetAddress inetAddress=InetAddress.getByName("127.0.0.1");
+		InetAddress inetAddress=InetAddress.getByName("10.1.5.13");
 	        this.adresseip=inetAddress;
 	        this.listeadressesconnectes.add(inetAddress);
 		
-	} catch (SocketException | UnknownHostException e) {
+	} catch (UnknownHostException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
@@ -65,9 +65,9 @@ public class utilisateur {
   * puis on envoie en UDP à toutes les personnes connectes
   */
  
- public void setPseudo(String pseudochange) {
+ public void setPseudo(String pseudochange) throws IOException {
 		
-		int i=0;
+		/*int i=0;
 		int index=listepseudoconnectes.indexOf(pseudo);
 			this.pseudo = pseudochange;
 			listepseudoconnectes.add(index,pseudo);
@@ -86,13 +86,17 @@ public class utilisateur {
 				}
 			
 			}
-		/*
-		 * DatagramSocket dgrampseudo=new DatagramSocket();
-			InetAddress adressebroadcast=InetAddress.getByName("127.0.0.1");
+		*/
+	 	int index=this.getListepseudoconnectes().indexOf(this.pseudo);
+	 	this.pseudo = pseudochange;
+		listepseudoconnectes.add(index,pseudo);
+		listepseudoconnectes.remove(index+1);
+		 DatagramSocket dgrampseudo=new DatagramSocket();
+			InetAddress adressebroadcast=InetAddress.getByName("10.1.255.255");
 			DatagramPacket paquetenvoye=new DatagramPacket(pseudochange.getBytes(),pseudochange.length(),adressebroadcast,1500);
-			dgramconnexion.send(paquetenvoye);
-			dgramconnexion.close();	
-		 */
+			dgrampseudo.send(paquetenvoye);
+			dgrampseudo.close();	
+		 
 		
 }
 
@@ -119,7 +123,7 @@ public class utilisateur {
 		//On supposera que l'administrateur du réseau entrera dans la BDD l'adresse du réseau, l'adresse de Broadcast et le masque du réseau, une fois a l'installation du logiciel
 		//car on ne peut pas aisément recuperer ces adresses en java et c'est très rapide de les rentrer une fois en dur
 			DatagramSocket dgramconnexion=new DatagramSocket();
-			InetAddress adressebroadcast=InetAddress.getByName("127.0.0.1");
+			InetAddress adressebroadcast=InetAddress.getByName("10.1.255.255");
 			DatagramPacket paquetenvoye=new DatagramPacket(pseudo.getBytes(),pseudo.length(),adressebroadcast,1500);
 			dgramconnexion.send(paquetenvoye);
 			dgramconnexion.close();
@@ -154,7 +158,7 @@ public class utilisateur {
 	//Si on commente on peut simuler des conversations sur un meme pc
 	
 	
-	/*
+	
 	public void demarrerserveurudptcp() {
 		// TODO Auto-generated method stub
 		Thread udp=new MyThreadudp(this);
@@ -165,10 +169,10 @@ public class utilisateur {
 		tcp.start();
 		System.out.println("terminerdemarrer");
 	}
-	*/
+
 
 	
-	
+
 	/* GETTERS SETTERS */
 
 public ArrayList<String> getListepseudoconnectes() {

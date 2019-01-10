@@ -24,14 +24,14 @@ public class lancement {
 /*		
 A decommenter pour lancer le logiciel en mode réel, c'est a dire avec plusieurs ordinateurs sous la main, situation reelle
 Si on decommente on peut simuler des conversations sur un meme pc.  
+*/
+		
+		user.demarrerserveurudptcp();
 
 		
-		//user.demarrerserveurudptcp();
-
-*/		
 		
 		System.out.println("finirtcpudp");
-		
+	
 		
 		//On signale notre connexion aux autres et on recupere la liste des autres utilisateurs connectes
 		

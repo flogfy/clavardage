@@ -17,8 +17,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JOptionPane;
 
 public class fenetrelisteusers implements ActionListener{
 
@@ -104,10 +106,14 @@ public class fenetrelisteusers implements ActionListener{
         //Listen to events from the Convert button.
         	bouton.addActionListener(this);
         //Add the widgets to the container.
-       
+        	
         	converterPanel.add(bouton);
         }
-       }	
+       }
+        JButton bouton2 = new JButton("Changer de Pseudo");
+        bouton2.addActionListener(this);
+        converterPanel.add(bouton2);
+        
     }
 
 
@@ -132,8 +138,28 @@ public class fenetrelisteusers implements ActionListener{
     			
     			
     		}
+    		if(bout.getText()=="Changer de Pseudo") {
+    			 JOptionPane jop = new JOptionPane();
+
+    			    @SuppressWarnings("static-access")
+					String nom = jop.showInputDialog(null, "Veuillez entrer votre nouveau Pseudo", JOptionPane.QUESTION_MESSAGE);
+    			    if(!user.getListepseudoconnectes().contains(nom)) {
+    			    	try {
+    			    		System.out.println("changementpseudo");
+							user.setPseudo(nom);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+    			    }
+
+    			  }
+
+    			}
+    		       
+    		        
     	}
-    }
+    		
 
 	public void actualiser() {
 		converterFrame.setSize(new Dimension(400, pseudoconnectes.size()*50+20));
