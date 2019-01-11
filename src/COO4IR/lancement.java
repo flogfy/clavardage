@@ -2,10 +2,11 @@
 package COO4IR;
 
 import java.io.IOException;
+import java.sql.SQLException;
 ///L'utilisateur lance ceci pour demarrer
 public class lancement {
 		
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException, SQLException {
 		database bdd=new database();
 		fenetreconnexion fenconnexion= new fenetreconnexion(bdd);//On ouvre une fenetre où l'utilisateur entre login / MDP / pseudo
 		while(!fenconnexion.isEtablissementconnexion()) {//On attend qu'il est fini, on verifie frequemment si c'est bon

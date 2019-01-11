@@ -47,7 +47,9 @@ public class MyThread extends Thread {
 					}
 					if(input.getType()==0)
 					{
+						
 						//Si le type est message texte (normal)
+						user.getBdd().addMessage(input.getContenu(), socket.getLocalAddress(), socket.getInetAddress(), input.getTime());
 						fenetreconv.affichermessage(input);
 					}
 					int index=user.getListeadressesconnectes().indexOf(adressedestinataire);

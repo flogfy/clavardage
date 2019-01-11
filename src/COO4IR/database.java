@@ -16,8 +16,8 @@ public class database {
     //static final String DB_URL = "jdbc:mysql://localhost/clavardage?Unicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     //  Database credentials
-    static final String USER = "root";
-    static final String PASS = "root";
+    static final String USER = "lucas";
+    static final String PASS = "radureau";
 
     //Daatabase connection
     static Connection conn = null;
@@ -30,20 +30,7 @@ public class database {
     
     /*
     
-    CREATE TABLE Historique (
-            IPDest VARCHAR(15),
-            Message VARCHAR(500),
-            Date DATETIME(),
-            PRIMARY KEY (IPDest)
-    );
-    
-
-    
-    CREATE TABLE Authentification (
-            login VARCHAR(15),
-            password VARCHAR(15)
-            //FOREIGN KEY (IPDest) REFERENCES Users(IPDest)
-     );
+   
 
     */
     /*
@@ -58,7 +45,7 @@ public class database {
 
 
 
-    public database (){
+    public database () throws SQLException{
 
         //STEP 1: Register JDBC driver
         try {
@@ -75,11 +62,26 @@ public class database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+      /*  String sql="SELECT login FROM Authentification";
+        try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
+        	 ResultSet rs= stm.executeQuery();
+        	 String login=rs.getString("login");  /////ou si ne marche pas juste rs.toString()
+        	 if(login==null) {         //////Si pas de login dans la table alors premiere connexion on crée tout
+        		 sql = "CREATE TABLE Historique ( IPDest VARCHAR(15),Message VARCHAR(500), Date DATETIME())";
+        	        
+        	     sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
+        	 }
+        }
+        
+        sql = "CREATE TABLE Historique ( IPDest VARCHAR(15),Message VARCHAR(500), Date DATETIME())";
+        
+        sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
+        */ 
     }
 
     //Ajoute un message texte dans la DB en lien avec une IP
-    public void addMessage(String contenu, InetAddress ipdistant, Timestamp time) {
+    public void addMessage(String contenu, InetAddress ipdistant, InetAddress ipsource, Timestamp time) {
 
        /* InetAddress iptemp = null;
         try {
@@ -90,13 +92,14 @@ public class database {
         
         addUser(iptemp, UserDatabase.getByAdr(iptemp).pseudo);
 */
-        String sql = "INSERT INTO Historique (IPDest, Message,Date)\n" +
-                "VALUES (?,?,?)";
+        String sql = "INSERT INTO Historique (IPDest, IPsource, Message, Date)\n" +
+                "VALUES (?,?,?,?)";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
-            stm.setString(1, ipdistant.toString() );
-            stm.setString(2, contenu );
-            stm.setTimestamp(3,time);
+            stm.setString(1, ipdistant.toString());
+            stm.setString(2, ipsource.toString());
+            stm.setString(3, contenu );
+            stm.setTimestamp(4,time);
             stm.executeUpdate();
 
         } catch (SQLException e) {

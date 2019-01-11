@@ -25,6 +25,10 @@ public class utilisateur {
 	private ArrayList<String> listepseudoconnectes = new ArrayList<String>();
 	private fenetrelisteusers fenetreliste;
 	private database bdd;
+	
+
+
+
 	//Equivalents des "define" de C pour les differents types de messages
 	static int TEXTE=0;
 	int DOCUMENT=1;
@@ -122,7 +126,7 @@ public class utilisateur {
 			ObjectOutputStream sortie = new ObjectOutputStream(socketsource.getOutputStream());
 			sortie.flush();
 			sortie.writeObject(messageaenvoyer);
-			this.bdd.addMessage(messageaenvoyer.getContenu(),socketsource.getInetAddress(),messageaenvoyer.getTime());
+			this.bdd.addMessage(messageaenvoyer.getContenu(),socketsource.getInetAddress(),socketsource.getLocalAddress(),messageaenvoyer.getTime());
 			return(1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -227,4 +231,7 @@ public void setFenetreliste(fenetrelisteusers fenetreliste) {
 	this.fenetreliste = fenetreliste;
 }
 
+public database getBdd() {
+	return bdd;
+}
 }
