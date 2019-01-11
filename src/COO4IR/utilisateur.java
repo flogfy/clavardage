@@ -4,6 +4,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,10 +17,13 @@ public class utilisateur {
 	private String login;
 	private String pseudo;
 	private InetAddress adresseip;
+	private InetAddress adressebroadcast;
 	//Les differentes listes avec les infos des users connectes
 	private ArrayList<String> listeloginconnectes = new ArrayList<String>(); 
 	private ArrayList<InetAddress> listeadressesconnectes = new ArrayList<InetAddress>();
 	private ArrayList<String> listepseudoconnectes = new ArrayList<String>();
+	private fenetrelisteusers fenetreliste;
+	
 	//Equivalents des "define" de C pour les differents types de messages
 	static int TEXTE=0;
 	int DOCUMENT=1;
@@ -32,33 +36,42 @@ public class utilisateur {
 
 	
 	
- public utilisateur(String login, String pseudo) {
+ public utilisateur(String login, String pseudo) throws SocketException {
 	 this.login=login;
 	 this.pseudo=pseudo;
 	 this.listepseudoconnectes.add(pseudo);
 	 
-	 /*	On recupere son adresse IP, on suppose ici que celle-ci est sur eth0 */
 	 
-	 try {
-		 /*NetworkInterface interfaces = NetworkInterface.getByName("eth0");
-		Enumeration<InetAddress> iEnum=interfaces.getInetAddresses();
-			 L'adresse IP est le 3eme element */
-	      /*  InetAddress inetAddress = iEnum.nextElement(); 
-	        inetAddress=iEnum.nextElement();
-	        System.out.println(inetAddress.getHostAddress());
-	        */
-		InetAddress inetAddress=InetAddress.getByName("10.1.5.13");
-	        this.adresseip=inetAddress;
-	        this.listeadressesconnectes.add(inetAddress);
-		
-	} catch (UnknownHostException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	 // Recuperation adresse IP
+	 
+	 InetAddress ip=null;
+		try (final DatagramSocket socket = new DatagramSocket()) {
+			socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+			ip = socket.getLocalAddress();
+			socket.close();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+	        
+		this.adresseip=ip;
+	    this.listeadressesconnectes.add(ip);
+	    
+	    //Recuperation adresse broadcast
+	    
+	    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+		while (interfaces.hasMoreElements()) {
+			NetworkInterface networkInterface = interfaces.nextElement();
+			if (networkInterface.isLoopback())
+				continue;    // Do not want to use the loopback interface.
+			for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+				if(interfaceAddress.getAddress().equals(ip)) this.adressebroadcast=interfaceAddress.getBroadcast();
+			}
+		}
+	
  }
 
- 
- 
  /* Changement de pseudo, lancé depuis la fenetre des listes userconnectes 
   * On verifie d'abord si le pseudo ne fait pas partie de ceux déjà utilisés
   * On recupère la position de notre pseudo actuelle, on met a sa place le nouveau pseudo voulu, et on supprime l'ancien
@@ -92,8 +105,8 @@ public class utilisateur {
 		listepseudoconnectes.add(index,pseudo);
 		listepseudoconnectes.remove(index+1);
 		 DatagramSocket dgrampseudo=new DatagramSocket();
-			InetAddress adressebroadcast=InetAddress.getByName("10.1.255.255");
-			DatagramPacket paquetenvoye=new DatagramPacket(pseudochange.getBytes(),pseudochange.length(),adressebroadcast,1500);
+			
+			DatagramPacket paquetenvoye=new DatagramPacket(pseudochange.getBytes(),pseudochange.length(),this.adressebroadcast,1500);
 			dgrampseudo.send(paquetenvoye);
 			dgrampseudo.close();	
 		 
@@ -123,8 +136,7 @@ public class utilisateur {
 		//On supposera que l'administrateur du réseau entrera dans la BDD l'adresse du réseau, l'adresse de Broadcast et le masque du réseau, une fois a l'installation du logiciel
 		//car on ne peut pas aisément recuperer ces adresses en java et c'est très rapide de les rentrer une fois en dur
 			DatagramSocket dgramconnexion=new DatagramSocket();
-			InetAddress adressebroadcast=InetAddress.getByName("10.1.255.255");
-			DatagramPacket paquetenvoye=new DatagramPacket(pseudo.getBytes(),pseudo.length(),adressebroadcast,1500);
+			DatagramPacket paquetenvoye=new DatagramPacket(pseudo.getBytes(),pseudo.length(),this.adressebroadcast,1500);
 			dgramconnexion.send(paquetenvoye);
 			dgramconnexion.close();
 			
@@ -196,6 +208,18 @@ public InetAddress getAdresseip() {
 
 public String getPseudo() {
 	return pseudo;
+}
+
+
+
+public fenetrelisteusers getFenetreliste() {
+	return fenetreliste;
+}
+
+
+
+public void setFenetreliste(fenetrelisteusers fenetreliste) {
+	this.fenetreliste = fenetreliste;
 }
 
 

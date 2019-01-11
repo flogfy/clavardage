@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -22,7 +24,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JOptionPane;
 
-public class fenetrelisteusers implements ActionListener{
+public class fenetrelisteusers implements ActionListener, WindowListener{
 
 	boolean etablissementconnexion=false;
 	JFrame converterFrame;
@@ -63,6 +65,9 @@ public class fenetrelisteusers implements ActionListener{
         converterFrame.setSize(new Dimension(400, pseudoconnectes.size()*50+50));
         
         converterFrame.setBackground(Color.WHITE);
+        
+        converterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        converterFrame.addWindowListener(this);
 
         //Create and set up the panel.
         converterPanel = new JPanel();
@@ -170,6 +175,46 @@ public class fenetrelisteusers implements ActionListener{
 	        //Display the window.
 	       // converterFrame.pack();
 	        converterFrame.setVisible(true);
+	}
+	
+	 public void windowClosing(WindowEvent event) {
+	    	
+	    }
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
     
     

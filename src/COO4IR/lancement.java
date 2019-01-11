@@ -52,14 +52,8 @@ Si on decommente on peut simuler des conversations sur un meme pc.
 		//On affiche une fenetre avec la liste des utilisateurs connectés où l'on peut choisir à qui parler
 		
 		fenetrelisteusers fenetreliste=new fenetrelisteusers(user,user.getListepseudoconnectes(),user.getListeadressesconnectes());
-		while(1==1) {
-			Thread.sleep(3000);
-			fenetreliste.actualiser();
-		}
+		user.setFenetreliste(fenetreliste);
 		
-		
-			
-			
-		}
 	}
+}
 

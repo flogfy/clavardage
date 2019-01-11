@@ -21,6 +21,7 @@ public class MyThreadudp extends Thread {
 				//Le socket UDP utilisé pour recevoir des trames UDP envoyé par des utilisateurs qui viennent de se connecter
 				//et rajouter leur infos et éventuellement leur renvoyer les infos que l'on connait si on est l'avant
 				//derniere personne connectee
+				//Il est aussi utilisé pour des changements de pseudos et les deconnexions
 				
 				DatagramSocket socketudp=new DatagramSocket(1500);
 				byte[] buffer=new byte[512];
@@ -32,13 +33,22 @@ public class MyThreadudp extends Thread {
 					try {
 						i=i+1;
 						socketudp.receive(paquetudp);
-						if(user.getListeadressesconnectes().contains(paquetudp.getAddress())&&(i!=1)&&(user.getAdresseip()!=paquetudp.getAddress())) {//i!=1 a enlever pour une simulation sur plusieurs pc
+						if(user.getListeadressesconnectes().contains(paquetudp.getAddress())&&(i!=1)&&(!user.getAdresseip().equals(paquetudp.getAddress()))) {
 							byte[] pseudobyte=paquetudp.getData();
 							int longueur=paquetudp.getLength();
 							String newpseudo=new String(pseudobyte,0,longueur,Charset.defaultCharset());
 							int index=user.getListeadressesconnectes().indexOf(paquetudp.getAddress());
+							if(newpseudo.equals("deconnexion")){
+								user.getListepseudoconnectes().remove(index);
+								user.getListepseudoconnectes().remove(index);
+								user.getFenetreliste().actualiser();
+							}
+							else {
+							
 							user.getListepseudoconnectes().add(index,newpseudo);
 							user.getListepseudoconnectes().remove(index+1);
+							}
+							
 						}
 						else
 						{
@@ -53,7 +63,7 @@ public class MyThreadudp extends Thread {
 								user.getListeadressesconnectes().add(paquetudp.getAddress());
 								System.out.println(user.getListepseudoconnectes());
 								System.out.println(user.getListeadressesconnectes());
-								
+								user.getFenetreliste().actualiser();
 								
 								if(user.getListepseudoconnectes().size()>=2)
 								{

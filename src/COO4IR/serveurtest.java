@@ -6,7 +6,7 @@ public class serveurtest{
 	
 	public serveurtest() {
 	}
-	public static void main(String[]  args) throws InterruptedException, ClassNotFoundException {
+	public static void main(String[]  args) throws InterruptedException, ClassNotFoundException, SocketException {
 	
 			utilisateur user2=new utilisateur("pepita","lulu");
 			System.out.println(user2.getListeadressesconnectes());
