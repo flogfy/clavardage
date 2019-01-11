@@ -6,8 +6,8 @@ import java.io.IOException;
 public class lancement {
 		
 	public static void main(String[] args) throws IOException, InterruptedException {
-		
-		fenetreconnexion fenconnexion= new fenetreconnexion();//On ouvre une fenetre où l'utilisateur entre login / MDP / pseudo
+		database bdd=new database();
+		fenetreconnexion fenconnexion= new fenetreconnexion(bdd);//On ouvre une fenetre où l'utilisateur entre login / MDP / pseudo
 		while(!fenconnexion.isEtablissementconnexion()) {//On attend qu'il est fini, on verifie frequemment si c'est bon
 			try {
 				Thread.sleep(500);
@@ -17,7 +17,7 @@ public class lancement {
 			}
 		}
 		//On cree un utilisateur en fonction de ce qui a été rentré dans la fenetre de connexion
-		utilisateur user=new utilisateur(fenconnexion.getTlogin(),fenconnexion.getTpseudo());
+		utilisateur user=new utilisateur(fenconnexion.getTlogin(),fenconnexion.getTpseudo(),bdd);
 	
 		
 /*		

@@ -8,7 +8,7 @@ public class serveurtest{
 	}
 	public static void main(String[]  args) throws InterruptedException, ClassNotFoundException, SocketException {
 	
-			utilisateur user2=new utilisateur("pepita","lulu");
+			utilisateur user2=new utilisateur("pepita","lulu",null);
 			System.out.println(user2.getListeadressesconnectes());
 		//	user2.getListepseudoconnectes().add(user2.getPseudo());
 			Thread udp=new MyThreadudp(user2);

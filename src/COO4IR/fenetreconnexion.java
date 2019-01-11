@@ -19,7 +19,7 @@ public class fenetreconnexion implements ActionListener {
 	    JTextField tmdp;
 	    JTextField tpseudo;
 	    JButton seconnecter;
-	    
+	    database bdd;
 	
 	    
 	    public String getTlogin() {
@@ -38,9 +38,9 @@ public class fenetreconnexion implements ActionListener {
 		}
 
 
-		public fenetreconnexion() {
+		public fenetreconnexion(database bdd) {
 	    
-	    	
+	    	this.bdd=bdd;
 	        String lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
 	        try {
 	        	UIManager.setLookAndFeel(lookAndFeel);
@@ -127,18 +127,19 @@ public class fenetreconnexion implements ActionListener {
 	     String champlogin = tlogin.getText();
 	     String champmdp = tmdp.getText();
 	     String champpseudo = pseudo.getText();
-	     verifierchamps(champlogin,champmdp,champpseudo);
+	     verifierchamps(champlogin,champmdp,champpseudo,bdd);
 
 	     System.out.println("ok");
 	     
 	       }
 
 
-	private void verifierchamps(String champlogin, String champmdp, String champpseudo) {
+	private void verifierchamps(String champlogin, String champmdp, String champpseudo,database bdd) {
 	     etablissementconnexion=true;
-	     converterFrame.dispose();
+	     
 		// Verification par la BDD des identifiants
 		
+	     converterFrame.dispose();
 	}
 
 

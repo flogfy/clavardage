@@ -40,7 +40,7 @@ public class MyThreadudp extends Thread {
 							int index=user.getListeadressesconnectes().indexOf(paquetudp.getAddress());
 							if(newpseudo.equals("deconnexion")){
 								user.getListepseudoconnectes().remove(index);
-								user.getListepseudoconnectes().remove(index);
+								user.getListeadressesconnectes().remove(index);
 								user.getFenetreliste().actualiser();
 							}
 							else {

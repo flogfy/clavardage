@@ -3,7 +3,6 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -20,14 +19,12 @@ public class utilisateur {
 	private InetAddress adressebroadcast;
 
 
-
-
 	//Les differentes listes avec les infos des users connectes
 	private ArrayList<String> listeloginconnectes = new ArrayList<String>(); 
 	private ArrayList<InetAddress> listeadressesconnectes = new ArrayList<InetAddress>();
 	private ArrayList<String> listepseudoconnectes = new ArrayList<String>();
 	private fenetrelisteusers fenetreliste;
-	
+	private database bdd;
 	//Equivalents des "define" de C pour les differents types de messages
 	static int TEXTE=0;
 	int DOCUMENT=1;
@@ -40,10 +37,11 @@ public class utilisateur {
 
 	
 	
- public utilisateur(String login, String pseudo) throws SocketException {
+ public utilisateur(String login, String pseudo,database bdd) throws SocketException {
 	 this.login=login;
 	 this.pseudo=pseudo;
 	 this.listepseudoconnectes.add(pseudo);
+	 this.bdd=bdd;
 	 
 	 
 	 // Recuperation adresse IP
@@ -124,6 +122,7 @@ public class utilisateur {
 			ObjectOutputStream sortie = new ObjectOutputStream(socketsource.getOutputStream());
 			sortie.flush();
 			sortie.writeObject(messageaenvoyer);
+			this.bdd.addMessage(messageaenvoyer.getContenu(),socketsource.getInetAddress(),messageaenvoyer.getTime());
 			return(1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
