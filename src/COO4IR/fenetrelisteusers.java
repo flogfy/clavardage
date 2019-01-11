@@ -8,18 +8,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JOptionPane;
@@ -178,7 +179,22 @@ public class fenetrelisteusers implements ActionListener, WindowListener{
 	}
 	
 	 public void windowClosing(WindowEvent event) {
-	    	
+		
+		DatagramSocket dgramdeco;
+		try {
+			dgramdeco = new DatagramSocket();
+			DatagramPacket paquetenvoye=new DatagramPacket("deconnexion".getBytes(),"deconnexion".length(),user.getAdressebroadcast(),1500);
+			dgramdeco.send(paquetenvoye);
+			dgramdeco.close();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		 converterFrame.dispose();
 	    }
 
 	@Override

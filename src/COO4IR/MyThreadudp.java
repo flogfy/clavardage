@@ -47,6 +47,8 @@ public class MyThreadudp extends Thread {
 							
 							user.getListepseudoconnectes().add(index,newpseudo);
 							user.getListepseudoconnectes().remove(index+1);
+							user.getFenetreliste().actualiser();
+							
 							}
 							
 						}

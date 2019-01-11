@@ -18,6 +18,10 @@ public class utilisateur {
 	private String pseudo;
 	private InetAddress adresseip;
 	private InetAddress adressebroadcast;
+
+
+
+
 	//Les differentes listes avec les infos des users connectes
 	private ArrayList<String> listeloginconnectes = new ArrayList<String>(); 
 	private ArrayList<InetAddress> listeadressesconnectes = new ArrayList<InetAddress>();
@@ -210,7 +214,9 @@ public String getPseudo() {
 	return pseudo;
 }
 
-
+public InetAddress getAdressebroadcast() {
+	return adressebroadcast;
+}
 
 public fenetrelisteusers getFenetreliste() {
 	return fenetreliste;
@@ -221,15 +227,5 @@ public fenetrelisteusers getFenetreliste() {
 public void setFenetreliste(fenetrelisteusers fenetreliste) {
 	this.fenetreliste = fenetreliste;
 }
-
-
-
-
-
-
-
-
-
-
 
 }
