@@ -86,26 +86,7 @@ public class utilisateur {
  
  public void setPseudo(String pseudochange) throws IOException {
 		
-		/*int i=0;
-		int index=listepseudoconnectes.indexOf(pseudo);
-			this.pseudo = pseudochange;
-			listepseudoconnectes.add(index,pseudo);
-			listepseudoconnectes.remove(index+1);
-			message pseudochanges = new message(PSEUDO,id,pseudochange,null);
-			////////A CHANGER PAR SOCKET UDP /////////////
-			Socket socketsource=new Socket();		
-			for(i=0;i<listeadressesconnectes.size()-1;i++) {
-				try {
-					socketsource.connect(new InetSocketAddress(listeadressesconnectes.get(i),8200));
-					this.envoyermessage(pseudochanges,this.getAdresseip(),listeadressesconnectes.get(i),socketsource);
-					socketsource.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			
-			}
-		*/
+		
 	 	int index=this.getListepseudoconnectes().indexOf(this.pseudo);
 	 	this.pseudo = pseudochange;
 		listepseudoconnectes.add(index,pseudo);

@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Fri Jan 11 15:04:44 CET 2019:
-AmorÃ§age de Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579) : instance a816c00e-0168-3d3a-b4aa-000006e08f90 
-dans le rÃ©pertoire de base de donnÃ©es /home/fgeoffro/Documents/Eclipse/clavardage2/clavardage/derbyDB avec le chargeur de classe sun.misc.Launcher$AppClassLoader@73d16e93
-ChargÃ© de file:/home/fgeoffro/Documents/Eclipse/clavardage2/db-derby-10.14.2.0-bin/lib/derby.jar
+Mon Jan 14 22:34:59 CET 2019:
+Amorçage de Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579) : instance a816c00e-0168-4e49-fe6e-000003373c50 
+dans le répertoire de base de données C:\Users\phara\git\clavardage\derbyDB avec le chargeur de classe sun.misc.Launcher$AppClassLoader@73d16e93
+Chargé de file:/C:/Program%20Files%20(x86)/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_131-b11
-user.dir=/home/fgeoffro/Documents/Eclipse/clavardage2/clavardage
-os.name=Linux
+java.runtime.version=1.8.0_191-b12
+user.dir=C:\Users\phara\git\clavardage
+os.name=Windows 10
 os.arch=amd64
-os.version=4.4.0-141-generic
+os.version=10.0
 derby.system.home=null
-Chargeur de classe de la base de donnÃ©es dÃ©marrÃ© - derby.database.classpath = ''
+Chargeur de classe de la base de données démarré - derby.database.classpath = ''

@@ -17,6 +17,7 @@ public class MyThread extends Thread {
 		this.pseudodest=pseudodest;
 	}
 	public void run() {
+		
 		//On envoie tout d'abord un message pour confirmer au client que l'on a ouvert une conversation
 		//et comme ça le client sait sur quel socket il peut parler au serveur
 		message messageaenvoyer=new message(3,13,user.getPseudo(),null);//type texte

@@ -2,7 +2,7 @@ package COO4IR;
 
 import java.awt.*;
 import java.awt.event.*;
-
+import java.sql.SQLException;
 
 import javax.swing.*;
 
@@ -127,19 +127,29 @@ public class fenetreconnexion implements ActionListener {
 	     String champlogin = tlogin.getText();
 	     String champmdp = tmdp.getText();
 	     String champpseudo = pseudo.getText();
-	     verifierchamps(champlogin,champmdp,champpseudo,bdd);
+	     try {
+			verifierchamps(champlogin,champmdp,champpseudo,bdd);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	     System.out.println("ok");
 	     
 	       }
 
 
-	private void verifierchamps(String champlogin, String champmdp, String champpseudo,database bdd) {
-	     etablissementconnexion=true;
-	     
+	private void verifierchamps(String champlogin, String champmdp, String champpseudo,database bdd) throws SQLException {
 		// Verification par la BDD des identifiants
+		int retour=bdd.connexionbdd(champlogin, champmdp);
+	     if(retour==1) {
+	    	 etablissementconnexion=true;
+	    	 converterFrame.dispose();
+	     }
+	     else {
+	    	 tlogin.setText("");
+	    	 tmdp.setText("");
+	     }
 		
-	     converterFrame.dispose();
 	}
 
 

@@ -62,22 +62,51 @@ public class database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-      /*  String sql="SELECT login FROM Authentification";
+      
+    }
+    
+    public int connexionbdd(String loginentre, String mdpentre) throws SQLException {
+    	  String sql="SELECT * FROM Authentification";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
         	 ResultSet rs= stm.executeQuery();
-        	 String login=rs.getString("login");  /////ou si ne marche pas juste rs.toString()
-        	 if(login==null) {         //////Si pas de login dans la table alors premiere connexion on crÃ©e tout
-        		 sql = "CREATE TABLE Historique ( IPDest VARCHAR(15),Message VARCHAR(500), Date DATETIME())";
-        	        
-        	     sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
+        	 String loginretourne=rs.getString("login");
+        	 String mdpretourne=rs.getString("password");
+        	  //////Si pas de login dans la table alors premiere connexion on cree tout
+        	    
+        		 
+        	 
+        	 //////Sinon on va verifier si les login et mdp entrés sont les bons
+        	 
+        		 if(loginentre.equals(loginretourne)&&(mdpentre.equals(mdpretourne))) {
+        			 return(1);
+        		 }
+        		 else {
+        			 return(0);
+        		 }
         	 }
+    
+        catch(SQLException e) {
+       /* 	sql = "CREATE TABLE Historique ( IPDest VARCHAR(15),Message VARCHAR(500), Date DATETIME())";
+	        
+   	     sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
+   	     
+   	      sql = "INSERT INTO Authentification (login,password)\n" +
+           "VALUES (?,?)";
+           try (PreparedStatement stm2 = conn.prepareStatement(sql)) {
+
+       		stm2.setString(1, loginentre);
+       		stm2.setString(2, mdpentre);
+       		stm2.executeUpdate();
+       		return(2);
+
+   		} catch (SQLException o) {
+       		o.printStackTrace();
+   		}*/
         }
+		return 0;
+       
         
-        sql = "CREATE TABLE Historique ( IPDest VARCHAR(15),Message VARCHAR(500), Date DATETIME())";
-        
-        sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
-        */ 
     }
 
     //Ajoute un message texte dans la DB en lien avec une IP
