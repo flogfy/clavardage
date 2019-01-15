@@ -75,7 +75,7 @@ public class database {
         	 System.out.println(mdpentre);
         	 if(rs.next()==false) {
         		 System.out.println("BDDVIDE");
-        	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15),Message VARCHAR(500),Date DATE)";
+        	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15), IPsource VARCHAR(15),Message VARCHAR(500),Date DATE)";
         	     	
         	       try (Statement stm2 = conn.createStatement()) {
         	       		stm2.executeUpdate(sql);
