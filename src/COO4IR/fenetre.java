@@ -94,10 +94,11 @@ public class fenetre implements WindowListener,ActionListener {
 	        
 	        
 	        ArrayList<message> listemessage = user.getBdd().getMessages(this.destination.toString(),user.getAdresseip());
-	        int i=listemessage.size();
-	        while(i>0) {
-	        	i--;
+	        int i=0;
+	        while(i<listemessage.size()) {
+	        	
 	        	affichermessageancien(listemessage.get(i));
+	        	i++;
 	        }
 	        //Display the window.
 	       // converterFrame.pack();
@@ -183,7 +184,7 @@ public class fenetre implements WindowListener,ActionListener {
 			
 			   String messageaffiche= message.getContenu();
 			   String date=message.getDate();
-			       discussion=new JLabel("<html><font Color=grey>"+ date +"</fond><font Color=green>"+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
+			       discussion=new JLabel("<html><font Color=grey>"+ date +"</fond><font Color=green> "+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
 			       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 			       converterPanel.add(discussion);
 			       converterFrame.setVisible(true);

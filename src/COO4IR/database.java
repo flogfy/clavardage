@@ -176,8 +176,9 @@ public class database {
             stm.setString(2, ip );
             stm.setString(3, ipuser.toString() );
             rs = stm.executeQuery();
+           rs.last();
            int i=0;
-            while(rs.next()&&(i<10)){
+            while(rs.previous()&&(i<10)){
             	i++;
                 //Retrieve by column name
                 String message = rs.getString("Message");
