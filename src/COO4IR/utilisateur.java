@@ -107,7 +107,9 @@ public class utilisateur {
 			ObjectOutputStream sortie = new ObjectOutputStream(socketsource.getOutputStream());
 			sortie.flush();
 			sortie.writeObject(messageaenvoyer);
-			this.bdd.addMessage(messageaenvoyer.getContenu(),socketsource.getInetAddress(),socketsource.getLocalAddress(),messageaenvoyer.getTime());
+			if(messageaenvoyer.getType()!=3) {
+				this.bdd.addMessage(messageaenvoyer.getContenu(),socketsource.getInetAddress(),socketsource.getLocalAddress(),messageaenvoyer.getDate().toString());
+			}
 			return(1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -171,7 +173,6 @@ public class utilisateur {
 	}
 
 
-	
 
 	/* GETTERS SETTERS */
 

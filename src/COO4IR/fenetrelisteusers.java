@@ -167,7 +167,7 @@ public class fenetrelisteusers implements ActionListener, WindowListener{
     		
 
 	public void actualiser() {
-		converterFrame.setSize(new Dimension(400, pseudoconnectes.size()*50+20));
+		converterFrame.setSize(new Dimension(400, pseudoconnectes.size()*50+50));
 		converterFrame.remove(converterPanel);
 		converterPanel.removeAll();
 		addWidgets();

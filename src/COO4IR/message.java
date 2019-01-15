@@ -13,13 +13,12 @@ public class message implements Serializable {
 	private String date;
 	private String contenu;
 	private Image image;
-	private Timestamp time;
-	public message(int type, int id,String contenu,Image image) {
+	public message(int type,int id,String contenu,Image image) {
 		super();
 		this.contenu=contenu;
 		this.type=type;
 		this.image=image;
-		this.time=new Timestamp(System.currentTimeMillis());
+		
 		//On considère la date au moment où le message est crée
 		Date ladate=new Date();
 		SimpleDateFormat formater = new SimpleDateFormat("h:mm");
@@ -41,21 +40,16 @@ public class message implements Serializable {
 
 
 
-	public int getId() {
-		return id;
-	}
 
 
 	public String getDate() {
 		return date;
 	}
 
-	public Timestamp getTime() {
-		return time;
-	}
 
-	public void setTime(Timestamp tmstp) {
-		this.time=tmstp;
+	public void setDate(String date) {
+		// TODO Auto-generated method stub;
+	    this.date=date;
 		
 	}
 

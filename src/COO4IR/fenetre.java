@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,7 +97,7 @@ public class fenetre implements WindowListener,ActionListener {
 	        int i=listemessage.size();
 	        while(i>0) {
 	        	i--;
-	        	affichermessage(listemessage.get(i));
+	        	affichermessageancien(listemessage.get(i));
 	        }
 	        //Display the window.
 	       // converterFrame.pack();
@@ -151,6 +152,7 @@ public class fenetre implements WindowListener,ActionListener {
 		       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		       converterPanel.add(discussion);
 		       converterFrame.setVisible(true);
+		       
 	       }
 	       
 	      
@@ -171,6 +173,17 @@ public class fenetre implements WindowListener,ActionListener {
 			   String messageaffiche= message.getContenu();
 		    	   String date=message.getDate();
 			       discussion=new JLabel("<html><font Color=black>"+ date +"</fond><font Color=red>"+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
+			       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+			       converterPanel.add(discussion);
+			       converterFrame.setVisible(true);
+		       
+		}
+		
+		public void affichermessageancien(message message) {
+			
+			   String messageaffiche= message.getContenu();
+			   String date=message.getDate();
+			       discussion=new JLabel("<html><font Color=grey>"+ date +"</fond><font Color=green>"+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
 			       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 			       converterPanel.add(discussion);
 			       converterFrame.setVisible(true);

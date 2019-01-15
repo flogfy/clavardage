@@ -22,7 +22,7 @@ public class database {
     static Connection conn = null;
 
 
-    //Deux tables:
+   
 
 
    // On stock tout les users a qui l'ont a parlé avec leur dernier pseudo en date
@@ -89,6 +89,7 @@ public class database {
             	 //////Sinon on va verifier si les login et mdp entr�s sont les bons
             	 
             		 if(loginentre.equals(loginretourne)&&(mdpentre.equals(mdpretourne))) {
+            			 
             			 return(1);
             		 }
             		 else {
@@ -101,7 +102,7 @@ public class database {
         catch(SQLException e) {
         	e.printStackTrace();
         	System.out.println("BDDVIDE");
-	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15), IPDest VARCHAR(15),Message VARCHAR(500),Date DATE)";
+	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15), IPSource VARCHAR(15),Message VARCHAR(500),Date VARCHAR(500))";
 	     	
 	       try (Statement stm2 = conn.createStatement()) {
 	       		stm2.executeUpdate(sql);
@@ -135,8 +136,7 @@ public class database {
     }
 
     //Ajoute un message texte dans la DB en lien avec une IP
-    public void addMessage(String contenu, InetAddress ipdistant, InetAddress ipsource, Timestamp time) {
-
+    public void addMessage(String contenu, InetAddress ipdistant, InetAddress ipsource, String date) {
        /* InetAddress iptemp = null;
         try {
             iptemp = InetAddress.getByName(ip);
@@ -146,46 +146,46 @@ public class database {
         
         addUser(iptemp, UserDatabase.getByAdr(iptemp).pseudo);
 */
-        String sql = "INSERT INTO Historique (IPDest, IPsource, Message, Date)\n" +
+        String sql = "INSERT INTO Historique (IPDest, IPsource, Message, Date )\n" +
                 "VALUES (?,?,?,?)";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
             stm.setString(1, ipdistant.toString());
             stm.setString(2, ipsource.toString());
             stm.setString(3, contenu );
-            stm.setTimestamp(4,time);
+            stm.setString(4,date);
             stm.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+       
 
     }
 
     //Retourne la liste des 10 derniers messages échangés avec une IP ( indépendamment du pseudo )
     public ArrayList<message> getMessages(String ip,InetAddress ipuser) {
 
-        String sql = "SELECT * FROM Messages WHERE IPDest = ? OR (Ipsource = ? AND IPDest=?) ORDER BY Date DESC LIMIT 10";
+        String sql = "SELECT * FROM Historique WHERE IPDest = ? OR (Ipsource = ? AND IPDest=?)";
         ResultSet rs=null;
         ArrayList<message> messageList = new ArrayList<message>();
 
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
-            System.out.println(ip);
             stm.setString(1, ip );
             stm.setString(2, ip );
             stm.setString(3, ipuser.toString() );
             rs = stm.executeQuery();
-           
-            while(rs.next()){
-
+           int i=0;
+            while(rs.next()&&(i<10)){
+            	i++;
                 //Retrieve by column name
                 String message = rs.getString("Message");
-                Timestamp tmstp = rs.getTimestamp("Date");
+                String date = rs.getString("Date");
+                
 
                message mes = new message(0,0,message,null) ;
-               mes.setTime(tmstp);
+               mes.setDate(date);
                messageList.add(mes);
         
             }
