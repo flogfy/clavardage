@@ -23,6 +23,7 @@ public class MyThreadudp extends Thread {
 				//derniere personne connectee
 				//Il est aussi utilisé pour des changements de pseudos et les deconnexions
 				
+				@SuppressWarnings("resource")
 				DatagramSocket socketudp=new DatagramSocket(1500);
 				byte[] buffer=new byte[512];
 				DatagramPacket paquetudp=new DatagramPacket(buffer,buffer.length);

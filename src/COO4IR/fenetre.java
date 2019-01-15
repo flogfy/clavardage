@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.*;
@@ -33,12 +34,12 @@ public class fenetre implements WindowListener,ActionListener {
 		int DECONNEXION=5;
 		static int id=0;
 	    
-	    public fenetre(utilisateur user,InetAddress source,InetAddress destination,Socket socketsource,String pseudodestinataire) {
+	    public fenetre(utilisateur user,InetAddress source,InetAddress destination,Socket socketsource,String pseudodestinataire2) {
 	    	this.user=user;
 	    	this.source=source;
 	    	this.destination=destination;
 	    	this.socketsource=socketsource;
-	    	this.pseudodestinataire=pseudodestinataire;
+	    	this.pseudodestinataire=pseudodestinataire2;
 	    	
 	        String lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
 	        try {
@@ -58,7 +59,7 @@ public class fenetre implements WindowListener,ActionListener {
 				e.printStackTrace();
 			}
 	        //Create and set up the window.
-	        converterFrame = new JFrame(pseudodestinataire);
+	        converterFrame = new JFrame(this.pseudodestinataire);
 	        converterFrame.setSize(new Dimension(400, 700));
 	        converterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	        converterFrame.addWindowListener(this);
@@ -89,7 +90,14 @@ public class fenetre implements WindowListener,ActionListener {
 	        //Add the panel to the window.
 	        converterFrame.getContentPane().add(converterPanel, BorderLayout.NORTH);
 	        converterFrame.getContentPane().add(converterPanel2, BorderLayout.SOUTH);
-
+	        
+	        
+	        ArrayList<message> listemessage = user.getBdd().getMessages(this.destination.toString(),user.getAdresseip());
+	        int i=listemessage.size();
+	        while(i>0) {
+	        	i--;
+	        	affichermessage(listemessage.get(i));
+	        }
 	        //Display the window.
 	       // converterFrame.pack();
 	        converterFrame.setVisible(true);
@@ -159,6 +167,7 @@ public class fenetre implements WindowListener,ActionListener {
 
 //Message recu
 		public void affichermessage(message message) {
+			
 			   String messageaffiche= message.getContenu();
 		    	   String date=message.getDate();
 			       discussion=new JLabel("<html><font Color=black>"+ date +"</fond><font Color=red>"+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
@@ -203,8 +212,8 @@ public class fenetre implements WindowListener,ActionListener {
 			// TODO Auto-generated method stub
 			
 		}
-		public void setPseudodestinataire(String pseudodestinataire) {
-			this.pseudodestinataire = pseudodestinataire;
+		public void setPseudodestinataire(String pseudodestinataire2) {
+			this.pseudodestinataire = pseudodestinataire2;
 		}
 }
 

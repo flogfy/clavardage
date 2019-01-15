@@ -142,10 +142,17 @@ public class fenetreconnexion implements ActionListener {
 		// Verification par la BDD des identifiants
 		int retour=bdd.connexionbdd(champlogin, champmdp);
 	     if(retour==1) {
+	    	 System.out.println("Vous etes bien identifies");
+	    	 etablissementconnexion=true;
+	    	 converterFrame.dispose();
+	     }
+	     if(retour==2) {
+	    	 System.out.println("premiereconnexionreussie");
 	    	 etablissementconnexion=true;
 	    	 converterFrame.dispose();
 	     }
 	     else {
+	    	 
 	    	 tlogin.setText("");
 	    	 tmdp.setText("");
 	     }

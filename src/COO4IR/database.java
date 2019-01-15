@@ -4,7 +4,6 @@ package COO4IR;
 import java.net.InetAddress;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class database {
 
@@ -66,43 +65,76 @@ public class database {
     }
     
     public int connexionbdd(String loginentre, String mdpentre) throws SQLException {
-    	  String sql="SELECT * FROM Authentification";
+    	
+    	  String sql="SELECT login,password FROM Authentification";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
         	 ResultSet rs= stm.executeQuery();
-        	 String loginretourne=rs.getString("login");
-        	 String mdpretourne=rs.getString("password");
-        	  //////Si pas de login dans la table alors premiere connexion on cree tout
-        	    
-        		 
-        	 
-        	 //////Sinon on va verifier si les login et mdp entr�s sont les bons
-        	 
-        		 if(loginentre.equals(loginretourne)&&(mdpentre.equals(mdpretourne))) {
-        			 return(1);
-        		 }
-        		 else {
-        			 return(0);
-        		 }
+        	
+        	 System.out.println(loginentre);
+        	 System.out.println(mdpentre);
+        	 if(rs.next()==false) {
+        		 System.out.println("BDDVIDE");
+        	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15),Message VARCHAR(500),Date DATE)";
+        	     	
+        	       try (Statement stm2 = conn.createStatement()) {
+        	       		stm2.executeUpdate(sql);
+
+        	   		} catch (SQLException o) {
+        	       		o.printStackTrace();
+        	   		}
+        		        
+        	   	     sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
+        	   	  try (Statement stm2 = conn.createStatement()) {
+        	     		stm2.executeUpdate(sql);
+
+        	 		} catch (SQLException x) {
+        	     		x.printStackTrace();
+        	 		}
+        	   	     System.out.println("BDD creee plus qu'a remplir");
+        	   	      sql = "INSERT INTO Authentification (login,password)\n" +
+        	           "VALUES (?,?)";
+        	           try (PreparedStatement stm2 = conn.prepareStatement(sql)) {
+
+        	       		stm2.setString(1, loginentre);
+        	       		stm2.setString(2, mdpentre);
+        	       		stm2.executeUpdate();
+        	       		rs.close();
+        	       		stm2.close();
+        	       		stm.close();
+        	       		return(2);
+
+        	   		} catch (SQLException o) {
+        	       		o.printStackTrace();
+        	   		}
         	 }
+        	 else {
+        		 String loginretourne=rs.getString("login");
+            	 String mdpretourne=rs.getString("password");
+            	 rs.close();
+ 	       		stm.close();
+            	// System.out.println(loginretourne);
+            	// System.out.println(mdpretourne);
+            	 
+            	  //////Si pas de login dans la table alors premiere connexion on cree tout
+            	    
+            		 
+            	 
+            	 //////Sinon on va verifier si les login et mdp entr�s sont les bons
+            	 
+            		 if(loginentre.equals(loginretourne)&&(mdpentre.equals(mdpretourne))) {
+            			 return(1);
+            		 }
+            		 else {
+            			 return(0);
+            		 }
+            	 }
+        	 }
+        	
     
         catch(SQLException e) {
-       /* 	sql = "CREATE TABLE Historique ( IPDest VARCHAR(15),Message VARCHAR(500), Date DATETIME())";
-	        
-   	     sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
-   	     
-   	      sql = "INSERT INTO Authentification (login,password)\n" +
-           "VALUES (?,?)";
-           try (PreparedStatement stm2 = conn.prepareStatement(sql)) {
-
-       		stm2.setString(1, loginentre);
-       		stm2.setString(2, mdpentre);
-       		stm2.executeUpdate();
-       		return(2);
-
-   		} catch (SQLException o) {
-       		o.printStackTrace();
-   		}*/
+        	e.printStackTrace();
+        	
         }
 		return 0;
        
@@ -137,7 +169,43 @@ public class database {
 
 
     }
-/*
+
+    //Retourne la liste des 10 derniers messages échangés avec une IP ( indépendamment du pseudo )
+    public ArrayList<message> getMessages(String ip,InetAddress ipuser) {
+
+        String sql = "SELECT * FROM Messages WHERE IPDest = ? OR (Ipsource = ? AND IPDest=?) ORDER BY Date DESC LIMIT 10";
+        ResultSet rs=null;
+        ArrayList<message> messageList = new ArrayList<message>();
+
+        try (PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            System.out.println(ip);
+            stm.setString(1, ip );
+            stm.setString(2, ip );
+            stm.setString(3, ipuser.toString() );
+            rs = stm.executeQuery();
+           
+            while(rs.next()){
+
+                //Retrieve by column name
+                String message = rs.getString("Message");
+                Timestamp tmstp = rs.getTimestamp("Date");
+
+               message mes = new message(0,0,message,null) ;
+               mes.setTime(tmstp);
+               messageList.add(mes);
+        
+            }
+            rs.close();
+            stm.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return messageList;
+    }
+    /*
     public boolean userExist(String ip, String pseudo) {
             List<User>  users = new ArrayList<User>();
             users = getUsers();
@@ -229,35 +297,4 @@ public class database {
 
     }
 */
-    //Retourne la liste des messages échangés avec une IP ( indépédamment du pseudo )
-    public List<message> getMessages(String ip) {
-
-        String sql = "SELECT * FROM Messages WHERE IPDest = ? ORDER BY Date";
-        ResultSet rs=null;
-        List<message> messageList = new ArrayList<message>();
-
-        try (PreparedStatement stm = conn.prepareStatement(sql)) {
-
-            System.out.println(ip);
-            stm.setString(1, ip );
-            rs = stm.executeQuery();
-            while(rs.next()){
-
-                //Retrieve by column name
-                String message = rs.getString("Message");
-                Timestamp tmstp = rs.getTimestamp("Date");
-
-               message mes = new message(0,0,message,null) ;
-               mes.setTime(tmstp);
-               messageList.add(mes);
-            }
-            rs.close();
-            stm.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return messageList;
-    }
 }//end FirstExample
