@@ -65,50 +65,16 @@ public class database {
     }
     
     public int connexionbdd(String loginentre, String mdpentre) throws SQLException {
-    	
-    	  String sql="SELECT login,password FROM Authentification";
+    	String sql="SELECT login,password FROM Authentification";
+    	//String sql="SELECT login,password FROM Authentification";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
         	 ResultSet rs= stm.executeQuery();
         	
-        	 System.out.println(loginentre);
-        	 System.out.println(mdpentre);
-        	 if(rs.next()==false) {
-        		 System.out.println("BDDVIDE");
-        	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15), IPsource VARCHAR(15),Message VARCHAR(500),Date DATE)";
-        	     	
-        	       try (Statement stm2 = conn.createStatement()) {
-        	       		stm2.executeUpdate(sql);
-
-        	   		} catch (SQLException o) {
-        	       		o.printStackTrace();
-        	   		}
-        		        
-        	   	     sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
-        	   	  try (Statement stm2 = conn.createStatement()) {
-        	     		stm2.executeUpdate(sql);
-
-        	 		} catch (SQLException x) {
-        	     		x.printStackTrace();
-        	 		}
-        	   	     System.out.println("BDD creee plus qu'a remplir");
-        	   	      sql = "INSERT INTO Authentification (login,password)\n" +
-        	           "VALUES (?,?)";
-        	           try (PreparedStatement stm2 = conn.prepareStatement(sql)) {
-
-        	       		stm2.setString(1, loginentre);
-        	       		stm2.setString(2, mdpentre);
-        	       		stm2.executeUpdate();
-        	       		rs.close();
-        	       		stm2.close();
-        	       		stm.close();
-        	       		return(2);
-
-        	   		} catch (SQLException o) {
-        	       		o.printStackTrace();
-        	   		}
-        	 }
-        	 else {
+        	 //System.out.println(loginentre);
+        	// System.out.println(mdpentre);
+        	 rs.next();
+        	 
         		 String loginretourne=rs.getString("login");
             	 String mdpretourne=rs.getString("password");
             	 rs.close();
@@ -128,15 +94,42 @@ public class database {
             		 else {
             			 return(0);
             		 }
-            	 }
+            	 
         	 }
         	
     
         catch(SQLException e) {
         	e.printStackTrace();
+        	System.out.println("BDDVIDE");
+	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15), IPDest VARCHAR(15),Message VARCHAR(500),Date DATE)";
+	     	
+	       try (Statement stm2 = conn.createStatement()) {
+	       		stm2.executeUpdate(sql);
+
+	   		} catch (SQLException o) {
+	       		o.printStackTrace();
+	   		}
+		        
+	   	     sql = "CREATE TABLE Authentification (login VARCHAR(15),password VARCHAR(15))";
+	   	  try (Statement stm2 = conn.createStatement()) {
+	     		stm2.executeUpdate(sql);
+
+	 		} catch (SQLException x) {
+	     		x.printStackTrace();
+	 		}
+	   	     System.out.println("BDD creee plus qu'a remplir");
+	   	      sql = "INSERT INTO Authentification (login,password)\n" +
+	           "VALUES (?,?)";
+	           try (PreparedStatement stm2 = conn.prepareStatement(sql)) {
+
+	       		stm2.setString(1, loginentre);
+	       		stm2.setString(2, mdpentre);
+	       		stm2.executeUpdate();
+	       		stm2.close();
+	       		return(2);
         	
+	           }
         }
-		return 0;
        
         
     }
