@@ -34,6 +34,7 @@ public class fenetrelisteusers implements ActionListener, WindowListener{
     ArrayList<JButton> listeboutons;
     ArrayList<String> pseudoconnectes;
     ArrayList<InetAddress>adressesconnectes;
+    int k=0;
     private utilisateur user;
     
    
@@ -124,9 +125,27 @@ public class fenetrelisteusers implements ActionListener, WindowListener{
 
     public void actionPerformed(ActionEvent event) 
     {
-    	//Ouvrir une conversation c'est a dire ouvrir une fenetre de discussion avec les infos necessaire en parametre
     	JButton bout=(JButton) event.getSource();
+    	if(bout.getText()=="Changer de Pseudo") {
+			 JOptionPane jop = new JOptionPane();
+			 System.out.println(k);
+			 k=k+1;
+			    @SuppressWarnings("static-access")
+				String nom = jop.showInputDialog(null, "Veuillez entrer votre nouveau Pseudo", JOptionPane.QUESTION_MESSAGE);
+			    if(!user.getListepseudoconnectes().contains(nom)) {
+			    	try {
+			    		System.out.println("changementpseudo");
+						user.setPseudo(nom);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    }
+
+			  }
+    	//Ouvrir une conversation c'est a dire ouvrir une fenetre de discussion avec les infos necessaire en parametre
     	
+    	else {
     	for(int i=0;i<pseudoconnectes.size();i++) {
     		if(bout.getText()==pseudoconnectes.get(i)) {
     			Socket socketsource=new Socket();
@@ -143,27 +162,12 @@ public class fenetrelisteusers implements ActionListener, WindowListener{
     			
     			
     		}
-    		if(bout.getText()=="Changer de Pseudo") {
-    			 JOptionPane jop = new JOptionPane();
-
-    			    @SuppressWarnings("static-access")
-					String nom = jop.showInputDialog(null, "Veuillez entrer votre nouveau Pseudo", JOptionPane.QUESTION_MESSAGE);
-    			    if(!user.getListepseudoconnectes().contains(nom)) {
-    			    	try {
-    			    		System.out.println("changementpseudo");
-							user.setPseudo(nom);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-    			    }
-
-    			  }
+    		
 
     			}
+    	}	       
     		       
-    		       
-    	}
+    }
     		
 
 	public void actualiser() {

@@ -64,7 +64,7 @@ public class fenetre implements WindowListener,ActionListener,KeyListener {
 	        converterFrame.setSize(new Dimension(400, 700));
 	        converterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	        converterFrame.addWindowListener(this);
-	        converterFrame.addKeyListener(this);
+	        
 	      //  converterFrame.setBackground(Color.BLACK);
 
 	        //Create and set up the panel.
@@ -121,6 +121,7 @@ public class fenetre implements WindowListener,ActionListener,KeyListener {
 	        
 	        message = new JTextField(2);
 	        message.setText("");
+	        message.addKeyListener(this);
 	        envoyer = new JButton("Envoyer");
 	        
 	       
