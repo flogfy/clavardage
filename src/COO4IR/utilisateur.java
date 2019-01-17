@@ -30,15 +30,6 @@ public class utilisateur {
 
 
 	//Equivalents des "define" de C pour les differents types de messages
-	static int TEXTE=0;
-	int DOCUMENT=1;
-	int IMAGE=2;
-	int PSEUDO=3;
-	static int CONNEXION=4;
-	int DECONNEXION=5;
-	int OUVERTURE=6;
-	int id=0;
-
 	
 	
  public utilisateur(String login, String pseudo,database bdd) throws SocketException {
@@ -108,7 +99,7 @@ public class utilisateur {
 			sortie.flush();
 			sortie.writeObject(messageaenvoyer);
 			if(messageaenvoyer.getType()!=3) {
-				this.bdd.addMessage(messageaenvoyer.getContenu(),socketsource.getInetAddress(),socketsource.getLocalAddress(),messageaenvoyer.getDate().toString());
+				this.bdd.addMessage(messageaenvoyer.getContenu(),socketsource.getInetAddress(),socketsource.getLocalAddress(),messageaenvoyer.getDate().toString(),0);
 			}
 			return(1);
 		} catch (IOException e) {

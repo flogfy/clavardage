@@ -50,7 +50,7 @@ public class MyThread extends Thread {
 					{
 						
 						//Si le type est message texte (normal)
-						user.getBdd().addMessage(input.getContenu(), socket.getLocalAddress(), socket.getInetAddress(), input.getDate().toString());
+						user.getBdd().addMessage(input.getContenu(), socket.getLocalAddress(), socket.getInetAddress(), input.getDate().toString(),1);
 						fenetreconv.affichermessage(input);
 					}
 					int index=user.getListeadressesconnectes().indexOf(adressedestinataire);

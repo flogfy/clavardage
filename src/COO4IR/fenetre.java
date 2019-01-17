@@ -184,10 +184,18 @@ public class fenetre implements WindowListener,ActionListener {
 			
 			   String messageaffiche= message.getContenu();
 			   String date=message.getDate();
-			       discussion=new JLabel("<html><font Color=grey>"+ date +"</fond><font Color=green> "+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
-			       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-			       converterPanel.add(discussion);
-			       converterFrame.setVisible(true);
+			   if(message.getType()==0) {
+				   
+				   discussion=new JLabel("<html><font Color=black>"+ date +"</fond><font Color=blue> "+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
+			   }
+			   else {
+				   
+				   discussion=new JLabel("<html><font Color=black>"+ date +"</fond><font Color=red> "+ messageaffiche  +"</font></html>",SwingConstants.CENTER);
+			      
+			   }
+			   discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+		       converterPanel.add(discussion);
+		       converterFrame.setVisible(true);   
 		       
 		}
 

@@ -102,7 +102,7 @@ public class database {
         catch(SQLException e) {
         	e.printStackTrace();
         	System.out.println("BDDVIDE");
-	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15), IPSource VARCHAR(15),Message VARCHAR(500),Date VARCHAR(500))";
+	     	sql = "CREATE TABLE Historique (IPDest VARCHAR(15), IPSource VARCHAR(15),Message VARCHAR(500),Date VARCHAR(500),Type INT)";
 	     	
 	       try (Statement stm2 = conn.createStatement()) {
 	       		stm2.executeUpdate(sql);
@@ -136,7 +136,7 @@ public class database {
     }
 
     //Ajoute un message texte dans la DB en lien avec une IP
-    public void addMessage(String contenu, InetAddress ipdistant, InetAddress ipsource, String date) {
+    public void addMessage(String contenu, InetAddress ipdistant, InetAddress ipsource, String date,int type) {
        /* InetAddress iptemp = null;
         try {
             iptemp = InetAddress.getByName(ip);
@@ -146,7 +146,7 @@ public class database {
         
         addUser(iptemp, UserDatabase.getByAdr(iptemp).pseudo);
 */
-        String sql = "INSERT INTO Historique (IPDest, IPsource, Message, Date )\n" +
+        String sql = "INSERT INTO Historique (IPDest, IPsource, Message, Date, Type)\n" +
                 "VALUES (?,?,?,?)";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
@@ -166,7 +166,7 @@ public class database {
     //Retourne la liste des 10 derniers messages échangés avec une IP ( indépendamment du pseudo )
     public ArrayList<message> getMessages(String ip,InetAddress ipuser) {
 
-        String sql = "SELECT * FROM Historique WHERE IPDest = ? OR (Ipsource = ? AND IPDest=?)";
+        String sql = "SELECT * FROM Historique WHERE IPDest = ? OR (Ipsource = ? AND IPDest=?) ORDER BY Date DESC";
         ResultSet rs=null;
         ArrayList<message> messageList = new ArrayList<message>();
 
@@ -176,20 +176,27 @@ public class database {
             stm.setString(2, ip );
             stm.setString(3, ipuser.toString() );
             rs = stm.executeQuery();
-           rs.last();
            int i=0;
-            while(rs.previous()&&(i<10)){
+            while(rs.next()&&(i<10)){
             	i++;
                 //Retrieve by column name
                 String message = rs.getString("Message");
                 String date = rs.getString("Date");
-                
+                int type=rs.getInt("Type");
 
-               message mes = new message(0,0,message,null) ;
+               message mes = new message(type,0,message,null) ;
                mes.setDate(date);
                messageList.add(mes);
         
             }
+            int j=messageList.size();
+            i=0;
+            while(i<j) {
+            	messageList.add(0, messageList.get(i));
+            	messageList.remove(i+1);
+            	i++;
+            }
+            
             rs.close();
             stm.close();
         } catch (SQLException e) {
