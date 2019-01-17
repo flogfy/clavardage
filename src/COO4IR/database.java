@@ -147,13 +147,14 @@ public class database {
         addUser(iptemp, UserDatabase.getByAdr(iptemp).pseudo);
 */
         String sql = "INSERT INTO Historique (IPDest, IPsource, Message, Date, Type)\n" +
-                "VALUES (?,?,?,?)";
+                "VALUES (?,?,?,?,?)";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
             stm.setString(1, ipdistant.toString());
             stm.setString(2, ipsource.toString());
             stm.setString(3, contenu );
             stm.setString(4,date);
+            stm.setInt(5, type);
             stm.executeUpdate();
 
         } catch (SQLException e) {

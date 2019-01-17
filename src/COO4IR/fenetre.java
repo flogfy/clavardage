@@ -13,7 +13,7 @@ import java.util.Date;
 import javax.swing.*;
 
 
-public class fenetre implements WindowListener,ActionListener {
+public class fenetre implements WindowListener,ActionListener,KeyListener {
 	    JFrame converterFrame;
 	    JPanel converterPanel;
 	    JPanel converterPanel2;
@@ -64,7 +64,7 @@ public class fenetre implements WindowListener,ActionListener {
 	        converterFrame.setSize(new Dimension(400, 700));
 	        converterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	        converterFrame.addWindowListener(this);
-
+	        converterFrame.addKeyListener(this);
 	      //  converterFrame.setBackground(Color.BLACK);
 
 	        //Create and set up the panel.
@@ -89,8 +89,16 @@ public class fenetre implements WindowListener,ActionListener {
 	       // converterFrame.getRootPane().setDefaultButton(envoyer);
 
 	        //Add the panel to the window.
-	        converterFrame.getContentPane().add(converterPanel, BorderLayout.NORTH);
+	        JScrollPane scroll=new JScrollPane(converterPanel);
+	        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+	        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	        scroll.setBounds(30, 30, 330, 600);
+	        JPanel contentPane = new JPanel(null);
+	        contentPane.setPreferredSize(new Dimension(330, 600));
+	        contentPane.add(scroll);
+	        converterFrame.getContentPane().add(contentPane, BorderLayout.NORTH);
 	        converterFrame.getContentPane().add(converterPanel2, BorderLayout.SOUTH);
+	       
 	        
 	        
 	        ArrayList<message> listemessage = user.getBdd().getMessages(this.destination.toString(),user.getAdresseip());
@@ -129,32 +137,8 @@ public class fenetre implements WindowListener,ActionListener {
 
 	    public void actionPerformed(ActionEvent event) {
 	    	
-	    	
-	    	
-	       String messageaffiche= message.getText();
-	       message.setText(null);
-	       message messageenvoye=new message(TEXTE,id,messageaffiche,null);
-	       id++; 
-	       int retour=user.envoyermessage(messageenvoye,source,destination,socketsource);
-	       if (retour==1) {
-	    	   Date date=new Date();
-		       SimpleDateFormat formater = new SimpleDateFormat("h:mm");
-		       String datee=(formater.format(date));
-		       discussion=new JLabel("<html><font Color=black>"+ datee +"</font><font Color=blue>"+ messageaffiche +"</font></html>",SwingConstants.CENTER);
-		       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-		       converterPanel.add(discussion);
-		       converterFrame.setVisible(true);
-	       }
-	       else {
-	    	   Date date=new Date();
-		       SimpleDateFormat formater = new SimpleDateFormat("h:mm");
-		       String datee=(formater.format(date));
-	    	   discussion=new JLabel("<html><font Color=orange>"+ datee +"</font><font Color=red>"+ " Votre ami n'est plus là ... "+"</font></html>",SwingConstants.CENTER);
-		       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-		       converterPanel.add(discussion);
-		       converterFrame.setVisible(true);
-		       
-	       }
+	    	envoyer();
+	       
 	       
 	      
 	    }
@@ -198,6 +182,33 @@ public class fenetre implements WindowListener,ActionListener {
 		       converterFrame.setVisible(true);   
 		       
 		}
+		private void envoyer() {
+			// TODO Auto-generated method stub
+			String messageaffiche= message.getText();
+		       message.setText(null);
+		       message messageenvoye=new message(TEXTE,id,messageaffiche,null);
+		       id++; 
+		       int retour=user.envoyermessage(messageenvoye,source,destination,socketsource);
+		       if (retour==1) {
+		    	   Date date=new Date();
+			       SimpleDateFormat formater = new SimpleDateFormat("h:mm");
+			       String datee=(formater.format(date));
+			       discussion=new JLabel("<html><font Color=black>"+ datee +"</font><font Color=blue>"+ messageaffiche +"</font></html>",SwingConstants.CENTER);
+			       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+			       converterPanel.add(discussion);
+			       converterFrame.setVisible(true);
+		       }
+		       else {
+		    	   Date date=new Date();
+			       SimpleDateFormat formater = new SimpleDateFormat("h:mm");
+			       String datee=(formater.format(date));
+		    	   discussion=new JLabel("<html><font Color=orange>"+ datee +"</font><font Color=red>"+ " Votre ami n'est plus là ... "+"</font></html>",SwingConstants.CENTER);
+			       discussion.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+			       converterPanel.add(discussion);
+			       converterFrame.setVisible(true);
+			       
+		       }
+		}
 
 		@Override
 		public void windowActivated(WindowEvent e) {
@@ -237,5 +248,29 @@ public class fenetre implements WindowListener,ActionListener {
 		public void setPseudodestinataire(String pseudodestinataire2) {
 			this.pseudodestinataire = pseudodestinataire2;
 		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+				envoyer();
+			}
+		}
+
+		
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		
 }
 
